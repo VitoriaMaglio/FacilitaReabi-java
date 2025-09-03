@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FacilitaReabi-java.iml" filepath="$PROJECT_DIR$/.idea/FacilitaReabi-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ddd-FacilitaReabi/ddd-FacilitaReabi.iml" filepath="$PROJECT_DIR$/ddd-FacilitaReabi/ddd-FacilitaReabi.iml" />
     </modules>
   </component>
 </project>
