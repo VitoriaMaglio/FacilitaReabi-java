@@ -1,4 +1,4 @@
-package br.facilitareabi.com.models;
+package br.facilitareabi.com.model;
 
 import br.facilitareabi.com.enums.StatusAgendamentoEnum;
 import java.util.Scanner;

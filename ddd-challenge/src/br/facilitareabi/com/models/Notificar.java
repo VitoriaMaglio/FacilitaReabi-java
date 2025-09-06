@@ -1,4 +1,4 @@
-package br.facilitareabi.com.models;
+package br.facilitareabi.com.model;
 
 public class Notificar {
     // Método

@@ -1,6 +1,6 @@
 package br.facilitareabi.com.tests;
 
-import br.facilitareabi.com.models.*;
+import br.facilitareabi.com.model.*;
 import br.facilitareabi.com.enums.StatusAgendamentoEnum;
 
 import java.util.Scanner;
