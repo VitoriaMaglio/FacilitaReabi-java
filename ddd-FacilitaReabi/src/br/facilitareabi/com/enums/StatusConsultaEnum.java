@@ -1,6 +1,6 @@
 package br.facilitareabi.com.enums;
 
-public enum StatusConsulta {
+public enum StatusConsultaEnum {
     AGENDADA,
     CANCELADA,
     REALIZADA;
