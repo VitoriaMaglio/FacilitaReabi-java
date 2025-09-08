@@ -1,18 +1,24 @@
 package br.facilitareabi.com.model;
 
+import java.sql.Date;
+
 public class Paciente {
     //atributtes
     private int id;
     private String nome;
     private String cpf;
-    private String dataNascimento;
+    private Date dataNascimento;
     private String telefone;
     private String email;
     private String vulnerabilidade;
 
     //Construtor
 
-    public Paciente(int id, String nome, String cpf, String dataNascimento, String telefone, String email, String vulnerabilidade) {
+
+    public Paciente() {
+    }
+
+    public Paciente(int id, String nome, String cpf, Date dataNascimento, String telefone, String email, String vulnerabilidade) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -49,11 +55,11 @@ public class Paciente {
         this.cpf = cpf;
     }
 
-    public String getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
