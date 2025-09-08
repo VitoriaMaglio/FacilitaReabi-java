@@ -1,7 +1,10 @@
 package br.facilitareabi.com.tests;
 
+import br.facilitareabi.com.dao.ConsultaDao;
 import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.dao.UsuarioDao;
+import br.facilitareabi.com.enums.StatusConsultaEnum;
+import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
 
@@ -35,7 +38,7 @@ public class Main {
         return paciente;
     }
 
-    //Método para cadastro-leitura de paciente
+    //Método para cadastro-leitura de usuario
     public static Usuario leituraDadosu(Usuario usuario) {
         Scanner leitor = new Scanner(System.in);
         Scanner leitorNum = new Scanner(System.in);
@@ -48,6 +51,25 @@ public class Main {
         return usuario;
     }
 
+    //Método para cadastro-leitura de consulta
+    public static Consulta leituraDadosc(Consulta consulta) {
+        Scanner leitor = new Scanner(System.in);
+        Scanner leitorNum = new Scanner(System.in);
+        System.out.println("Digite seu id:");
+        consulta.setId(leitorNum.nextInt());
+        System.out.println("Digite a data da consulta:");
+        String data= leitor.nextLine();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(data, fmt);
+        consulta.setDataConsulta(Date.valueOf(localDate));
+        System.out.println("Digite o status da consulta:");
+        String statusStr = leitor.nextLine().toUpperCase(); // garante que fique maiúsculo
+        consulta.setStatusConsulta(StatusConsultaEnum.valueOf(statusStr));// valueof converte a string em enum
+        System.out.println("Digite motivo de falta:");
+        consulta.setMotivoFalta(leitor.nextLine());
+        return consulta;
+    }
+
     public static void main(String[] args) {
         Paciente paciente = new Paciente();
         leituraDados(paciente);
@@ -56,6 +78,8 @@ public class Main {
         Usuario usuario = new Usuario();
         UsuarioDao usuarioDao = new UsuarioDao();
         usuarioDao.cadastrarUsuario(usuario);
+        Consulta consulta = new Consulta();
+        ConsultaDao consultaDao = new ConsultaDao();
     }
 }
 
