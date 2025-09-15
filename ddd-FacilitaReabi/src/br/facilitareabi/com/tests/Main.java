@@ -61,7 +61,7 @@ public class Main {
         String data= leitor.nextLine();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.parse(data, fmt);
-        consulta.setDataConsulta(Date.valueOf(localDate));
+        consulta.setDataConsulta(Date.valueOf(localDate).toLocalDate());
         System.out.println("Digite o status da consulta:");
         String statusStr = leitor.nextLine().toUpperCase(); // garante que fique maiúsculo
         consulta.setStatusConsulta(StatusConsultaEnum.valueOf(statusStr));// valueof converte a string em enum

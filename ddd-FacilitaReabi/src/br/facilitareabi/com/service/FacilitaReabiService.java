@@ -1,4 +1,4 @@
-package br.facilitareabi.com.service.services;
+package br.facilitareabi.com.service;
 
-public class FacilitaReabiService {
+public interface FacilitaReabiService {//contrato para acessar informações do site
 }

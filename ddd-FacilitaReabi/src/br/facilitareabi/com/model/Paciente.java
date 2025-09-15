@@ -30,7 +30,6 @@ public class Paciente {
 
     //Getters e setters
 
-
     public int getId() {
         return id;
     }

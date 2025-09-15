@@ -2,12 +2,13 @@ package br.facilitareabi.com.model;
 
 import br.facilitareabi.com.enums.StatusConsultaEnum;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Consulta {
     //atributtes
     private int id;
-    private Date dataConsulta;
+    private LocalDate dataConsulta;
     private StatusConsultaEnum StatusConsulta;
     private String motivoFalta;
 
@@ -16,7 +17,7 @@ public class Consulta {
     public Consulta() {
     }
 
-    public Consulta(int id, Date dataConsulta, StatusConsultaEnum statusConsulta, String motivoFalta) {
+    public Consulta(int id, LocalDate dataConsulta, StatusConsultaEnum statusConsulta, String motivoFalta) {
         this.id = id;
         this.dataConsulta = dataConsulta;
         StatusConsulta = statusConsulta;
@@ -33,11 +34,11 @@ public class Consulta {
         this.id = id;
     }
 
-    public Date getDataConsulta() {
+    public LocalDate getDataConsulta() {
         return dataConsulta;
     }
 
-    public void setDataConsulta(Date dataConsulta) {
+    public void setDataConsulta(LocalDate dataConsulta) {
         this.dataConsulta = dataConsulta;
     }
 

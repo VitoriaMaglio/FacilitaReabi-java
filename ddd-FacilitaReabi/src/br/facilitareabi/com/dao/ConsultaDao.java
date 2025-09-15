@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class ConsultaDao {
 
@@ -17,7 +18,7 @@ public class ConsultaDao {
             String sql = "insert into usuario (id, login, senha) values(?,?,?)";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setInt(1, consulta.getId());
-            comandoSQL.setDate(2, (Date) consulta.getDataConsulta());
+            comandoSQL.setDate(2, Date.valueOf((LocalDate) consulta.getDataConsulta()));
             comandoSQL.setString(3, consulta.getStatusConsulta().name());
             comandoSQL.setString(3, consulta.getMotivoFalta());
             comandoSQL.executeUpdate();
