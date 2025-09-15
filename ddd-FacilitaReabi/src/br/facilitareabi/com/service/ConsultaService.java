@@ -11,3 +11,5 @@ public interface ConsultaService {
 }
 
 //alterar a data da consulta e atualizar status.
+//Paciente é apto para consulta se tiver internet,camêra,mic, se quiser fazer consultas das especializações certas e se não tiver vulnerabilidades
+//Remarcar consulta se o paciente n tiver disponibilidade para o dia if consulta.status == remarcar gere uma nova data, pergunta o motivo e coloca o novo status remarcado para dia.
