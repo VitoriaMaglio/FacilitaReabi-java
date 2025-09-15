@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class ConsultaDao {
+    //CRUD
 
     public void cadastrarConsulta(Consulta consulta) {
         Connection conexao = ConnectionFactory.obterConexao();
@@ -27,6 +28,5 @@ public class ConsultaDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-    }}
+    }
+}
