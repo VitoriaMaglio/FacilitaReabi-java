@@ -36,7 +36,7 @@ public class PacienteDao {
         PreparedStatement ps = null;
         Paciente paciente = new Paciente();
         try{
-            ps= conexao.prepareStatement("SELECT * FROM PACIENTE WHERE ID_PACIE=?");
+            ps= conexao.prepareStatement("SELECT * FROM PACIENTE WHERE ID=?");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
@@ -54,7 +54,7 @@ public class PacienteDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement ps = null;
         try {
-            String sql = "UPDATE PACIENTE SET NOME=?,WHERE ID_PACIE=?";
+            String sql = "UPDATE PACIENTE SET NOME=?,WHERE ID=?";
             ps= conexao.prepareStatement(sql);
             ps.setString(2, paciente.getNome());
             ps.executeUpdate();
@@ -69,7 +69,7 @@ public class PacienteDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;
         try {
-            String sql = "DELETE FROM PACIENTE WHERE ID_PACIE=?";
+            String sql = "DELETE FROM PACIENTE WHERE ID=?";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setInt(1,id);
             comandoSQL.executeUpdate();

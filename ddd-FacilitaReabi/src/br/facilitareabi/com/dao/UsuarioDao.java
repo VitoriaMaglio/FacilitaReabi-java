@@ -34,7 +34,7 @@ public class UsuarioDao {
         PreparedStatement ps = null;
         Usuario usuario = new Usuario();
         try{
-            ps = conexao.prepareStatement("SELECT * FROM USUARIO WHERE ID_USUA = ?");
+            ps = conexao.prepareStatement("SELECT * FROM USUARIO WHERE ID = ?");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -54,7 +54,7 @@ public class UsuarioDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;
         try{
-            String sql = "UPDATE USUARIO SET LOGIN, WHERE ID_USUA=?";
+            String sql = "UPDATE USUARIO SET LOGIN, WHERE ID=?";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setString(2,usuario.getLogin());
             comandoSQL.executeUpdate();
@@ -69,7 +69,7 @@ public class UsuarioDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;
         try {
-            String sql = "DELETE FROM USUARIO WHERE ID_USUA=?";
+            String sql = "DELETE FROM USUARIO WHERE ID=?";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setInt(1,id);
             comandoSQL.executeUpdate();

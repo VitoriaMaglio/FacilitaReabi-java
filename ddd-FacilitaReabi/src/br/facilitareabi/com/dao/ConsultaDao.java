@@ -3,10 +3,7 @@ package br.facilitareabi.com.dao;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Usuario;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class ConsultaDao {
@@ -31,6 +28,23 @@ public class ConsultaDao {
     }
 
     //buscar
+    public Consulta buscarId(int id){
+        Connection conexao = ConnectionFactory.obterConexao();
+        PreparedStatement ps = null;
+        Consulta consulta = new Consulta();
+        try{
+            ps = conexao.prepareStatement("SELECT * FROM CONEXAO WHERE ID=?");
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                consulta.setId(1);
+            }
+            ps.close();
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }return consulta;
+    }
 
     public void atualizarConsulta(Consulta consulta) {
         Connection conexao = ConnectionFactory.obterConexao();
@@ -48,6 +62,22 @@ public class ConsultaDao {
             conexao.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void excluir(int id){
+        Connection conexao = ConnectionFactory.obterConexao();
+        PreparedStatement ps = null;
+        Consulta consulta = new Consulta();
+        try{
+            String sql = "DELETE FROM CONSULTA WHERE ID=?";
+            ps= conexao.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.executeUpdate();
+            ps.close();
+            conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
