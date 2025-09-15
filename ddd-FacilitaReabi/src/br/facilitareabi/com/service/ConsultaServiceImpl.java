@@ -19,10 +19,14 @@ public class ConsultaServiceImpl implements ConsultaService {
     }
 
     @Override
-    public void remarcarConsulta(Consulta consulta, LocalDate novaData) {
-        if(consulta.getStatusConsulta().equals("REMARCAR"));
+    public boolean remarcarConsulta(Consulta consulta, LocalDate novaData) {
+        if (consulta.getStatusConsulta().equals("REMARCAR")) {
             consulta.setDataConsulta(novaData);
             consulta.setStatusConsulta(StatusConsultaEnum.valueOf("Agendada"));
-    }
-}
+        } else {
+            consulta.getMotivoFalta();
+
+        }
+        return false;
+    }}
 //cham o método remarcarconsulta

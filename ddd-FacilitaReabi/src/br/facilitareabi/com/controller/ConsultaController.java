@@ -1,5 +1,7 @@
 package br.facilitareabi.com.controller;
 
+import br.facilitareabi.com.dao.ConsultaDao;
+import br.facilitareabi.com.enums.StatusConsultaEnum;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.service.ConsultaService;
@@ -7,6 +9,8 @@ import br.facilitareabi.com.service.ConsultaServiceImpl;
 
 import javax.sound.midi.Soundbank;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class ConsultaController {
     //chama o serviçop e DAO para atualzar banco
@@ -20,12 +24,27 @@ public class ConsultaController {
         }
     }
 
-    public void remarcarConsulta(Consulta consulta, LocalDate novaData){
-        if(consultaService.remarcarConsulta(consulta, novaData));
-        System.out.printf("Digite a data da sua nova consulta");
-        //substituir data e guardar no banco
-        //registrar motivo
-        //mostrar status ;
+    public void remarcarConsulta(Consulta consulta, LocalDate novaData, ConsultaDao consultaDao){
+        Scanner leitor = new Scanner(System.in);
+        if(consultaService.remarcarConsulta(consulta, novaData)){
+            System.out.println("Digite a nova data da consulta (dd/MM/yyyy):");
+            String dataDigitada = leitor.nextLine();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            novaData = LocalDate.parse(dataDigitada, fmt); // só atribuição, sem LocalDate na frente
+            System.out.printf("Digite o motivo da sua falta:");
+            System.out.println("Digite o motivo da sua falta:");
+            String motivoFalta = leitor.nextLine();
+            consulta.setDataConsulta(novaData);
+            consulta.setMotivoFalta(motivoFalta);
+            consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
+            System.out.println("Sua consulta está " + consulta.getStatusConsulta());
+        }else{
+            System.out.println("Digite o motivo da sua falta: ");
+            consulta.setStatusConsulta(StatusConsultaEnum.CANCELADA);
+            System.out.println("Sua consulta está " + consulta.getStatusConsulta());
+        }
+        consultaDao.atualizarConsulta(consulta);
+
 
     }
 }

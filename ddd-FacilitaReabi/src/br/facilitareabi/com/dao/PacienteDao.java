@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class PacienteDao {
     //CRUD
-
+    //esse método faz persistência no banco, não valida nem aplica regras.
     public void cadastrarPaciente(Paciente paciente){
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;

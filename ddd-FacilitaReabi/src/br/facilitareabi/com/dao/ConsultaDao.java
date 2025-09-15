@@ -29,4 +29,26 @@ public class ConsultaDao {
             e.printStackTrace();
         }
     }
+
+    //buscar
+
+    public void atualizarConsulta(Consulta consulta) {
+        Connection conexao = ConnectionFactory.obterConexao();
+        PreparedStatement ps = null;
+        try {
+            String sql = "UPDATE consulta SET dataConsulta = ?, motivo_falta = ?, status = ? WHERE id = ?";
+            ps = conexao.prepareStatement(sql);
+            ps.setInt(1, consulta.getId());
+            ps.setString(2, consulta.getStatusConsulta().name());
+            ps.setString(3, consulta.getMotivoFalta()); // salva enum como texto
+            ps.setDate(4,java.sql.Date.valueOf(consulta.getDataConsulta()) );
+
+            ps.executeUpdate();
+            ps.close();
+            conexao.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

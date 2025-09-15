@@ -80,6 +80,7 @@ public class Main {
         usuarioDao.cadastrarUsuario(usuario);
         Consulta consulta = new Consulta();
         ConsultaDao consultaDao = new ConsultaDao();
+
     }
 }
 
