@@ -13,12 +13,12 @@ public class ConsultaDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;
         try {
-            String sql = "insert into usuario (id, login, senha) values(?,?,?)";
+            String sql = "insert into consulta (id, dataConsulta, statusConsulta, motivoFalta) values(?,?,?,?)";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setInt(1, consulta.getId());
-            comandoSQL.setDate(2, Date.valueOf((LocalDate) consulta.getDataConsulta()));
+            comandoSQL.setDate(2, Date.valueOf((LocalDate)consulta.getDataConsulta()));
             comandoSQL.setString(3, consulta.getStatusConsulta().name());
-            comandoSQL.setString(3, consulta.getMotivoFalta());
+            comandoSQL.setString(4, consulta.getMotivoFalta());
             comandoSQL.executeUpdate();
             comandoSQL.close();
             conexao.close();
@@ -50,7 +50,7 @@ public class ConsultaDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement ps = null;
         try {
-            String sql = "UPDATE consulta SET dataConsulta = ?, motivo_falta = ?, status = ? WHERE id = ?";
+            String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ? WHERE id = ?";
             ps = conexao.prepareStatement(sql);
             ps.setInt(1, consulta.getId());
             ps.setString(2, consulta.getStatusConsulta().name());

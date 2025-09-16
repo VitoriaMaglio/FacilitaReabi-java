@@ -2,10 +2,8 @@ package br.facilitareabi.com.dao;
 
 import br.facilitareabi.com.model.Paciente;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class PacienteDao {
     //CRUD
@@ -19,7 +17,7 @@ public class PacienteDao {
             comandoSQL.setInt(1, paciente.getId());
             comandoSQL.setString(2, paciente.getNome());
             comandoSQL.setString(3, paciente.getCpf());
-            comandoSQL.setDate(4, paciente.getDataNascimento());
+            comandoSQL.setDate(4, java.sql.Date.valueOf(paciente.getDataNascimento()));//converte para sql
             comandoSQL.setString(5, paciente.getTelefone());
             comandoSQL.setString(6, paciente.getEmail());
             comandoSQL.setString(7, paciente.getVulnerabilidade());
@@ -54,8 +52,9 @@ public class PacienteDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement ps = null;
         try {
-            String sql = "UPDATE PACIENTE SET NOME=?,WHERE ID=?";
+            String sql = "UPDATE PACIENTE SET NOME=? WHERE ID=?";
             ps= conexao.prepareStatement(sql);
+            ps.setInt(1, paciente.getId());
             ps.setString(2, paciente.getNome());
             ps.executeUpdate();
             ps.close();

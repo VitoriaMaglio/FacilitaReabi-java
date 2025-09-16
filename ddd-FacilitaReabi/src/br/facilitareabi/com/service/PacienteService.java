@@ -17,7 +17,7 @@ public class PacienteService {
     }
 
     //método boolean validarPaciente
-    private boolean validarPaciente(Paciente paciente) {
+    public boolean validarPaciente(Paciente paciente) {
         // Exemplo simples de validação
         return paciente.getNome() != null && !paciente.getNome().isEmpty()
                 && paciente.getCpf() != null && !paciente.getCpf().isEmpty();

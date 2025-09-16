@@ -1,14 +1,17 @@
 package br.facilitareabi.com.controller;
 
+import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.service.PacienteService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class PacienteController {
     private PacienteService pacienteService = new PacienteService();
     //declarar um obj do tipo service para utilizar lógica de negócio
-
+    private PacienteDao pacienteDao = new PacienteDao();
     //Recebe os dados do usuário e chama in
     public void cadastrarPaciente() {
         Scanner scanner = new Scanner(System.in);
@@ -20,9 +23,17 @@ public class PacienteController {
 
         System.out.println("Digite o nome:");
         paciente.setNome(scanner.nextLine());
-
+        
         System.out.println("Digite o CPF:");
         paciente.setCpf(scanner.nextLine());
+
+        System.out.println("Digite sua data de nascimento:");
+        String dataDigitada = scanner.nextLine();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate novaData = LocalDate.parse(dataDigitada, fmt);
+
+        // seta a data no paciente!
+        paciente.setDataNascimento(novaData);
 
         System.out.println("Digite o email:");
         paciente.setEmail(scanner.nextLine());

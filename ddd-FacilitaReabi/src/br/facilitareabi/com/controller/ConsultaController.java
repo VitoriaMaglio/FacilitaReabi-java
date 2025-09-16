@@ -26,24 +26,33 @@ public class ConsultaController {
 
     public void remarcarConsulta(Consulta consulta, LocalDate novaData, ConsultaDao consultaDao){
         Scanner leitor = new Scanner(System.in);
-        if(consultaService.remarcarConsulta(consulta, novaData)){
+        System.out.println("Você deseja remarcar (1) ou cancelar (2) a consulta?");
+        int opcao = leitor.nextInt();
+        leitor.nextLine();
+
+        if (opcao == 1) {
             System.out.println("Digite a nova data da consulta (dd/MM/yyyy):");
             String dataDigitada = leitor.nextLine();
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             novaData = LocalDate.parse(dataDigitada, fmt); // só atribuição, sem LocalDate na frente
+
             System.out.printf("Digite o motivo da sua falta:");
-            System.out.println("Digite o motivo da sua falta:");
             String motivoFalta = leitor.nextLine();
+
             consulta.setDataConsulta(novaData);
             consulta.setMotivoFalta(motivoFalta);
             consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
             System.out.println("Sua consulta está " + consulta.getStatusConsulta());
         }else{
-            System.out.println("Digite o motivo da sua falta: ");
+            System.out.println("Digite o motivo da sua falta:");
+            String motivoFalta = leitor.nextLine();
+
+            consulta.setMotivoFalta(motivoFalta);
             consulta.setStatusConsulta(StatusConsultaEnum.CANCELADA);
-            System.out.println("Sua consulta está " + consulta.getStatusConsulta());
         }
         consultaDao.atualizarConsulta(consulta);
+        System.out.println("Sua consulta está " + consulta.getStatusConsulta());
+
 
 
     }

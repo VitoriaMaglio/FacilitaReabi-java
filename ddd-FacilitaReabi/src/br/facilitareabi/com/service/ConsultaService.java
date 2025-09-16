@@ -7,7 +7,8 @@ import java.time.LocalDate;
 
 public interface ConsultaService {
     boolean verificarAptoParaConsulta(Paciente paciente);
-    boolean remarcarConsulta(Consulta consulta, LocalDate novaData);
+    void remarcarConsulta(Consulta consulta, LocalDate novaData, String motivoFalta);
+    void cancelarConsulta(Consulta consulta, String motivoFalta);
 }
 
 //alterar a data da consulta e atualizar status.

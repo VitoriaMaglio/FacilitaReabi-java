@@ -18,15 +18,20 @@ public class ConsultaServiceImpl implements ConsultaService {
         return true;
     }
 
-    @Override
-    public boolean remarcarConsulta(Consulta consulta, LocalDate novaData) {
-        if (consulta.getStatusConsulta().equals("REMARCAR")) {
-            consulta.setDataConsulta(novaData);
-            consulta.setStatusConsulta(StatusConsultaEnum.valueOf("Agendada"));
-        } else {
-            consulta.getMotivoFalta();
 
-        }
-        return false;
-    }}
+
+
+    @Override
+    public void remarcarConsulta(Consulta consulta, LocalDate novaData, String motivoFalta) {
+        consulta.setDataConsulta(novaData);
+        consulta.setMotivoFalta(motivoFalta);
+        consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
+    }
+
+    @Override
+    public void cancelarConsulta(Consulta consulta, String motivoFalta) {
+        consulta.setMotivoFalta(motivoFalta);
+        consulta.setStatusConsulta(StatusConsultaEnum.CANCELADA);
+    }
+}
 //cham o método remarcarconsulta
