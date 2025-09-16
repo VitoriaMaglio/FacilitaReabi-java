@@ -11,6 +11,7 @@ public class Consulta {
     private LocalDate dataConsulta;
     private StatusConsultaEnum StatusConsulta;
     private String motivoFalta;
+    private Paciente paciente;
 
     //Construtor
 
@@ -56,5 +57,13 @@ public class Consulta {
 
     public void setMotivoFalta(String motivoFalta) {
         this.motivoFalta = motivoFalta;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 }

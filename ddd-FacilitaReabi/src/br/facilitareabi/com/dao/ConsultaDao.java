@@ -1,6 +1,8 @@
 package br.facilitareabi.com.dao;
 
+import br.facilitareabi.com.enums.StatusConsultaEnum;
 import br.facilitareabi.com.model.Consulta;
+import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
 
 import java.sql.*;
@@ -10,16 +12,21 @@ public class ConsultaDao {
     //CRUD
 
     public void cadastrarConsulta(Consulta consulta) {
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement comandoSQL = null;
-        try {
-            String sql = "insert into consulta (id, dataConsulta, statusConsulta, motivoFalta) values(?,?,?,?)";
-            comandoSQL = conexao.prepareStatement(sql);
-            comandoSQL.setInt(1, consulta.getId());
-            comandoSQL.setDate(2, Date.valueOf((LocalDate)consulta.getDataConsulta()));
-            comandoSQL.setString(3, consulta.getStatusConsulta().name());
-            comandoSQL.setString(4, consulta.getMotivoFalta());
+        String sql = "insert into consulta ( dataConsulta, statusConsulta, motivoFalta,id_paciente) values(?,?,?,?)";
+
+        try(Connection conexao = ConnectionFactory.obterConexao();
+            PreparedStatement comandoSQL = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//pode ser essa data aqui errada
+            comandoSQL.setDate(1, Date.valueOf((LocalDate)consulta.getDataConsulta()));
+            comandoSQL.setString(2, consulta.getStatusConsulta().name());
+            comandoSQL.setString(3, consulta.getMotivoFalta());
+            comandoSQL.setInt(4,consulta.getPaciente().getId_paciente());
             comandoSQL.executeUpdate();
+            try (ResultSet rs = comandoSQL.getGeneratedKeys()){
+                if(rs.next()){
+                    consulta.setId(rs.getInt(1));
+                }
+            }
             comandoSQL.close();
             conexao.close();
         } catch (SQLException e) {
@@ -29,56 +36,72 @@ public class ConsultaDao {
 
     //buscar
     public Consulta buscarId(int id){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement ps = null;
-        Consulta consulta = new Consulta();
-        try{
-            ps = conexao.prepareStatement("SELECT * FROM CONEXAO WHERE ID=?");
-            ps.setInt(1,id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                consulta.setId(1);
+        String sql = "SELECT * FROM consulta WHERE id=?";
+        Consulta consulta = null;
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    consulta = new Consulta();
+                    consulta.setId(rs.getInt("id"));
+                    consulta.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
+                    consulta.setStatusConsulta(StatusConsultaEnum.valueOf(rs.getString("statusConsulta")));
+                    consulta.setMotivoFalta(rs.getString("motivoFalta"));
+
+                    //referência ao paciente:
+                    Paciente paciente = new Paciente();
+                    paciente.setId_paciente(rs.getInt("id_paciente"));
+                    consulta.setPaciente(paciente);
+                }
             }
-            ps.close();
-            conexao.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }return consulta;
-    }
+        }
+        return consulta;
+        }
 
-    //UPDATE não cria registros — ele só modifica registros que já existem
+        //UPDATE não cria registros — ele só modifica registros que já existem
     public void atualizarConsulta(Consulta consulta) {
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement ps = null;
-        try {
-            String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ? WHERE id = ?";
-            ps = conexao.prepareStatement(sql);
-            ps.setDate(1,java.sql.Date.valueOf(consulta.getDataConsulta()) );
+        String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ?, id_paciente = ? WHERE id = ?";
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setDate(1, Date.valueOf(consulta.getDataConsulta()));
             ps.setString(2, consulta.getStatusConsulta().name());
-            ps.setString(3, consulta.getMotivoFalta());// salva enum como texto
-            ps.setInt(4, consulta.getId());
-            ps.executeUpdate();
-            ps.close();
-            conexao.close();
+            ps.setString(3, consulta.getMotivoFalta());
+            ps.setInt(4, consulta.getPaciente().getId_paciente());
+            ps.setInt(5, consulta.getId());
+
+            int linhasAfetadas = ps.executeUpdate();
+            if (linhasAfetadas == 0) {
+                System.out.println("Nenhuma consulta encontrada com o ID: " + consulta.getId());
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void excluir(int id){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement ps = null;
-        Consulta consulta = new Consulta();
-        try{
-            String sql = "DELETE FROM CONSULTA WHERE ID=?";
-            ps= conexao.prepareStatement(sql);
-            ps.setInt(1,id);
-            ps.executeUpdate();
-            ps.close();
-            conexao.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public void excluir(int id) {
+        String sql = "DELETE FROM consulta WHERE id = ?";
 
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            int linhasAfetadas = ps.executeUpdate();
+            if (linhasAfetadas == 0) {
+                System.out.println("Nenhuma consulta encontrada com o ID: " + id);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

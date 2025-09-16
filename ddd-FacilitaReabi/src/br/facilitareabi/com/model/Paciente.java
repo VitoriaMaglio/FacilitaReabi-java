@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class Paciente {
     //atributtes
-    private int id;
+    private int id_paciente;
     private String nome;
     private String cpf;
     private LocalDate dataNascimento;
@@ -19,8 +19,8 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(int id, String nome, String cpf, LocalDate dataNascimento, String telefone, String email, String vulnerabilidade) {
-        this.id = id;
+    public Paciente(int id_paciente, String nome, String cpf, LocalDate dataNascimento, String telefone, String email, String vulnerabilidade) {
+        this.id_paciente = id_paciente;
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
@@ -31,12 +31,13 @@ public class Paciente {
 
     //Getters e setters
 
-    public int getId() {
-        return id;
+
+    public int getId_paciente() {
+        return id_paciente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_paciente(int id_paciente) {
+        this.id_paciente = id_paciente;
     }
 
     public String getNome() {

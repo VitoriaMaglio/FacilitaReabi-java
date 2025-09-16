@@ -1,5 +1,6 @@
 package br.facilitareabi.com.service;
 
+import br.facilitareabi.com.dao.ConsultaDao;
 import br.facilitareabi.com.enums.StatusConsultaEnum;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
@@ -23,6 +24,7 @@ public class ConsultaServiceImpl implements ConsultaService {
         consulta.setDataConsulta(novaData);
         consulta.setMotivoFalta(motivoFalta);
         consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
+
     }
 
     @Override
