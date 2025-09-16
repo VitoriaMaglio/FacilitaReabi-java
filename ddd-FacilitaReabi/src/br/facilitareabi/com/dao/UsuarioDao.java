@@ -3,60 +3,67 @@ package br.facilitareabi.com.dao;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UsuarioDao {
     //CRUD inserir,buscar,alterar,excluir
 
-    public void cadastrarUsuario(Usuario usuario){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement comandoSQL = null;
-        try{
-            String sql = "insert into usuario (id, login, senha) values(?,?,?)";
-            comandoSQL = conexao.prepareStatement(sql);
-            comandoSQL.setInt(1, usuario.getId());
-            comandoSQL.setString(2, usuario.getLogin());
-            comandoSQL.setString(3, usuario.getSenha());
-            comandoSQL.executeUpdate();
-            comandoSQL.close();
-            conexao.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+    public void cadastrarUsuario(Usuario usuario) {
+        String sql = "INSERT INTO usuario (id, login, senha) VALUES (usuario_seq.NEXTVAL, ?, ?)";
 
-    }
+        try (Connection conexao = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conexao.prepareStatement(sql)) {
 
-    public Usuario buscarId(int id){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement ps = null;
-        Usuario usuario = new Usuario();
-        try{
-            ps = conexao.prepareStatement("SELECT * FROM USUARIO WHERE ID = ?");
-            ps.setInt(1,id);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                usuario.setId(rs.getInt(1));
-                usuario.setSenha(rs.getString(2));
-                usuario.setLogin(rs.getString(3));
+            ps.setString(1, usuario.getLogin());
+            ps.setString(2, usuario.getSenha());
+
+            ps.executeUpdate();
+
+            // Recupera o ID inserido usando a mesma sequence
+            try (PreparedStatement psId = conexao.prepareStatement("SELECT usuario_seq.CURRVAL FROM dual");
+                 ResultSet rs = psId.executeQuery()) {
+
+                if (rs.next()) {
+                    usuario.setId(rs.getInt(1));
+                }
             }
-            ps.close();;
-            conexao.close();
+
+            System.out.println("Usuário cadastrado com ID: " + usuario.getId());
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return usuario;
+    }
+
+
+
+    public Usuario buscarId(int id) {
+        String sql = "SELECT * FROM USUARIO WHERE ID = ?";
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
+                return usuario;
+            }
+            ps.close();
+            //conexao.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public void alterarUsuario(Usuario usuario){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement comandoSQL = null;
-        try{
-            String sql = "UPDATE USUARIO SET LOGIN, WHERE ID=?";
-            comandoSQL = conexao.prepareStatement(sql);
+        String sql = "UPDATE USUARIO SET LOGIN, WHERE ID=?";
+
+        try(Connection conexao = ConnectionFactory.obterConexao();
+            PreparedStatement comandoSQL = conexao.prepareStatement(sql)){
             comandoSQL.setString(2,usuario.getLogin());
+            comandoSQL.setString(3,usuario.getSenha());
             comandoSQL.executeUpdate();
             comandoSQL.close();
             conexao.close();
@@ -66,11 +73,9 @@ public class UsuarioDao {
     }
 
     public void excluirUsua(int id){
-        Connection conexao = ConnectionFactory.obterConexao();
-        PreparedStatement comandoSQL = null;
-        try {
-            String sql = "DELETE FROM USUARIO WHERE ID=?";
-            comandoSQL = conexao.prepareStatement(sql);
+        String sql = "DELETE FROM USUARIO WHERE ID=?";
+        try( Connection conexao = ConnectionFactory.obterConexao();
+             PreparedStatement comandoSQL = conexao.prepareStatement((sql))) {
             comandoSQL.setInt(1,id);
             comandoSQL.executeUpdate();
             comandoSQL.close();

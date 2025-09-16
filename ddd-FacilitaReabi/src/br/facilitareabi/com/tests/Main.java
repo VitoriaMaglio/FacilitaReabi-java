@@ -40,6 +40,8 @@ public class Main {
 
             switch (opcao) {
                 case "1":
+                    //cadastro de usuário
+                    usuarioController.cadastrarUsuario();
                     controller.cadastrarPaciente();
                 case "2":
                     consultaController.cadastrarConsulta();

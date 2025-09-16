@@ -3,59 +3,171 @@ package br.facilitareabi.com.dao;
 import br.facilitareabi.com.model.Paciente;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PacienteDao {
-    //CRUD
-    //esse método faz persistência no banco, não valida nem aplica regras.
-    public void cadastrarPaciente(Paciente paciente) {
-        String sql = "insert into paciente (nome,cpf,dataNascimento,telefone,email,vulnerabilidade) values(?,?,?,?,?,?)";
-        try (Connection conexao = ConnectionFactory.obterConexao();
-             PreparedStatement comandoSQL = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            //comandoSQL.setInt(1, paciente.getId_paciente());
-            comandoSQL.setString(1, paciente.getNome());
-            comandoSQL.setString(2, paciente.getCpf());
-            comandoSQL.setDate(3, java.sql.Date.valueOf(paciente.getDataNascimento()));//converte para sql
-            comandoSQL.setString(4, paciente.getTelefone());
-            comandoSQL.setString(5, paciente.getEmail());
-            comandoSQL.setString(6, paciente.getVulnerabilidade());
-            comandoSQL.executeUpdate();
-            try (ResultSet rs = comandoSQL.getGeneratedKeys()) {
+    // Cadastrar paciente
+    public void cadastrarPaciente(Paciente paciente) {
+        String sql = "INSERT INTO paciente (nome, dataNascimento, email, telefone, cpf, vulnerabilidade) VALUES (paciente_seq.NEXTVAL,?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, paciente.getNome());
+            ps.setDate(2, java.sql.Date.valueOf(paciente.getDataNascimento()));
+            ps.setString(3, paciente.getEmail());
+            ps.setString(4, paciente.getTelefone());
+            ps.setString(5, paciente.getCpf());
+            ps.setString(6, paciente.getVulnerabilidade());
+
+            ps.executeUpdate();
+
+            try (PreparedStatement psId = conn.prepareStatement("SELECT paciente_seq.CURRVAL FROM dual");
+                 ResultSet rs = psId.executeQuery()) {
+
                 if (rs.next()) {
                     paciente.setId_paciente(rs.getInt(1));
                 }
             }
-            comandoSQL.close();
-            conexao.close();
+            System.out.println("Paciente cadastrado com ID: " + paciente.getId_paciente());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Buscar paciente por ID
+    public Paciente buscarPorId(int id) {
+        String sql = "SELECT * FROM paciente WHERE id_paciente = ?";
+        Paciente paciente = null;
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    paciente = new Paciente();
+                    paciente.setId_paciente(rs.getInt("id_paciente"));
+                    paciente.setNome(rs.getString("nome"));
+                    paciente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
+                    paciente.setEmail(rs.getString("email"));
+                    paciente.setTelefone(rs.getString("telefone"));
+                    paciente.setCpf(rs.getString("cpf"));
+                    paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        return paciente;
     }
 
-    public Paciente buscarId(int id) {
-        String sql = "SELECT * FROM paciente WHERE id_paciente = ?";
+    // Buscar paciente por nome
+    public Paciente buscarPorNome(String nome) {
+        String sql = "SELECT * FROM paciente WHERE nome = ?";
+        Paciente paciente = null;
+
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            ps.setString(1, nome);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    paciente = new Paciente();
+                    paciente.setId_paciente(rs.getInt("id_paciente"));
+                    paciente.setNome(rs.getString("nome"));
+                    paciente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
+                    paciente.setEmail(rs.getString("email"));
+                    paciente.setTelefone(rs.getString("telefone"));
+                    paciente.setCpf(rs.getString("cpf"));
+                    paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return paciente;
+    }
+
+    // Atualizar paciente completo
+    public void atualizarPaciente(Paciente paciente) {
+        String sql = "UPDATE paciente SET nome = ?, dataNascimento = ?, email = ?, telefone = ?, cpf = ?, vulnerabilidade = ? WHERE id_paciente = ?";
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, paciente.getNome());
+            ps.setDate(2, Date.valueOf(paciente.getDataNascimento()));
+            ps.setString(3, paciente.getEmail());
+            ps.setString(4, paciente.getTelefone());
+            ps.setString(5, paciente.getCpf());
+            ps.setString(6, paciente.getVulnerabilidade());
+            ps.setInt(7, paciente.getId_paciente());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // Excluir paciente
+    public void excluirPaciente(int id) {
+        String sql = "DELETE FROM paciente WHERE id_paciente = ?";
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Listar todos os pacientes
+    public List<Paciente> listarPacientes() {
+        String sql = "SELECT * FROM paciente";
+        List<Paciente> lista = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
                 Paciente paciente = new Paciente();
                 paciente.setId_paciente(rs.getInt("id_paciente"));
                 paciente.setNome(rs.getString("nome"));
-                paciente.setCpf(rs.getString("cpf"));
                 paciente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
-                paciente.setTelefone(rs.getString("telefone"));
                 paciente.setEmail(rs.getString("email"));
+                paciente.setTelefone(rs.getString("telefone"));
+                paciente.setCpf(rs.getString("cpf"));
                 paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
-                return paciente;
+
+                lista.add(paciente);
             }
-            ps.close();
-            conn.close();
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        return null;
+
+        return lista;
     }
 }

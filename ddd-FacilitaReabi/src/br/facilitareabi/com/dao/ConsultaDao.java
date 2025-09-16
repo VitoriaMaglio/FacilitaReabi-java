@@ -12,7 +12,7 @@ public class ConsultaDao {
     //CRUD
 
     public void cadastrarConsulta(Consulta consulta) {
-        String sql = "insert into consulta ( dataConsulta, statusConsulta, motivoFalta,id_paciente) values(?,?,?,?)";
+        String sql = "insert into consulta ( dataConsulta, statusConsulta, motivoFalta,id_paciente) values(consulta_seq.NEXTVAL,?,?,?,?)";
 
         try(Connection conexao = ConnectionFactory.obterConexao();
             PreparedStatement comandoSQL = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -22,12 +22,17 @@ public class ConsultaDao {
             comandoSQL.setString(3, consulta.getMotivoFalta());
             comandoSQL.setInt(4,consulta.getPaciente().getId_paciente());
             comandoSQL.executeUpdate();
-            try (ResultSet rs = comandoSQL.getGeneratedKeys()){
-                if(rs.next()){
+            try (PreparedStatement psId = conexao.prepareStatement("SELECT consulta_seq.CURRVAL FROM dual");
+                 ResultSet rs = psId.executeQuery()) {
+
+                if (rs.next()) {
                     consulta.setId(rs.getInt(1));
                 }
             }
-            comandoSQL.close();
+            System.out.println("Consulta cadastrado com ID: " + consulta.getId());
+
+
+            //comandoSQL.close();
             conexao.close();
         } catch (SQLException e) {
             e.printStackTrace();
