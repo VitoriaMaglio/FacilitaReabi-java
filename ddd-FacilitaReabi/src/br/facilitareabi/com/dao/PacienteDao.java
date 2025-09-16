@@ -12,7 +12,7 @@ public class PacienteDao {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement comandoSQL = null;
         try{
-            String sql = "insert into paciente (id, nome,cpf,dataNascimento,telefone,email,vulnerabilidade) values(?,?,?,?,?,?,?)";
+            String sql = "insert into paciente (id,nome,cpf,dataNascimento,telefone,email,vulnerabilidade) values(?,?,?,?,?,?,?)";
             comandoSQL = conexao.prepareStatement(sql);
             comandoSQL.setInt(1, paciente.getId());
             comandoSQL.setString(2, paciente.getNome());

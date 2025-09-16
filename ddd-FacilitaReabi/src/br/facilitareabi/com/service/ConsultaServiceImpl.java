@@ -18,9 +18,6 @@ public class ConsultaServiceImpl implements ConsultaService {
         return true;
     }
 
-
-
-
     @Override
     public void remarcarConsulta(Consulta consulta, LocalDate novaData, String motivoFalta) {
         consulta.setDataConsulta(novaData);
@@ -33,5 +30,10 @@ public class ConsultaServiceImpl implements ConsultaService {
         consulta.setMotivoFalta(motivoFalta);
         consulta.setStatusConsulta(StatusConsultaEnum.CANCELADA);
     }
-}
+
+    @Override
+    public void cadastrarConsulta(Consulta consulta) {
+        consultaDao.cadastrarConsulta(consulta);
+        System.out.println("Consulta cadastrada com sucesso!");
+    }}
 //cham o método remarcarconsulta

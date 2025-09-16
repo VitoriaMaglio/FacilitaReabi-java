@@ -1,5 +1,6 @@
 package br.facilitareabi.com.service;
 
+import br.facilitareabi.com.dao.ConsultaDao;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
 
@@ -9,6 +10,8 @@ public interface ConsultaService {
     boolean verificarAptoParaConsulta(Paciente paciente);
     void remarcarConsulta(Consulta consulta, LocalDate novaData, String motivoFalta);
     void cancelarConsulta(Consulta consulta, String motivoFalta);
+    ConsultaDao consultaDao = new ConsultaDao();
+    public void cadastrarConsulta(Consulta consulta);
 }
 
 //alterar a data da consulta e atualizar status.

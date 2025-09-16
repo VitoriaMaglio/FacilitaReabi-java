@@ -19,16 +19,14 @@ public class Main {
     //Método para cadastro-leitura de paciente
     public static void main(String[] args) {
 
-                // Consulta
+
                 Consulta consulta = new Consulta();
                 ConsultaDao consultaDao = new ConsultaDao();
                 ConsultaController consultaController = new ConsultaController();
-                // Exemplo de remarcar consulta
-
-
-                // Paciente
                 PacienteController controller = new PacienteController();
-                controller.cadastrarPaciente(); // ✅ chama Service internamente
+
+                controller.cadastrarPaciente(); // chama Service internamente
+                consultaController.cadastrarConsulta();
                 consultaController.remarcarConsulta(consulta, null, consultaDao);
             }
         }

@@ -46,17 +46,17 @@ public class ConsultaDao {
         }return consulta;
     }
 
+    //UPDATE não cria registros — ele só modifica registros que já existem
     public void atualizarConsulta(Consulta consulta) {
         Connection conexao = ConnectionFactory.obterConexao();
         PreparedStatement ps = null;
         try {
             String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ? WHERE id = ?";
             ps = conexao.prepareStatement(sql);
-            ps.setInt(1, consulta.getId());
+            ps.setDate(1,java.sql.Date.valueOf(consulta.getDataConsulta()) );
             ps.setString(2, consulta.getStatusConsulta().name());
-            ps.setString(3, consulta.getMotivoFalta()); // salva enum como texto
-            ps.setDate(4,java.sql.Date.valueOf(consulta.getDataConsulta()) );
-
+            ps.setString(3, consulta.getMotivoFalta());// salva enum como texto
+            ps.setInt(4, consulta.getId());
             ps.executeUpdate();
             ps.close();
             conexao.close();
