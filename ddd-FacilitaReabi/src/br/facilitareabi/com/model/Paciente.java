@@ -87,4 +87,20 @@ public class Paciente {
     public void setVulnerabilidade(String vulnerabilidade) {
         this.vulnerabilidade = vulnerabilidade;
     }
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "ID=" + id_paciente +
+                ", Nome='" + nome + '\'' +
+                ", DataNascimento=" + dataNascimento +
+                ", Email='" + email + '\'' +
+                ", Telefone='" + telefone + '\'' +
+                ", CPF='" + cpf + '\'' +
+                ", Vulnerabilidade='" + vulnerabilidade + '\'' +
+                '}';
+    }
+
+
+
 }

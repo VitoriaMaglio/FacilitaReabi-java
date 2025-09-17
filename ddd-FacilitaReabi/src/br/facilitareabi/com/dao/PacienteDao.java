@@ -43,35 +43,7 @@ public class PacienteDao {
         }
     }
 
-    // Buscar paciente por ID
-    public Paciente buscarPorId(int id) {
-        String sql = "SELECT * FROM paciente WHERE id_paciente = ?";
-        Paciente paciente = null;
 
-        try (Connection conn = ConnectionFactory.obterConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    paciente = new Paciente();
-                    paciente.setId_paciente(rs.getInt("id_paciente"));
-                    paciente.setNome(rs.getString("nome"));
-                    paciente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
-                    paciente.setEmail(rs.getString("email"));
-                    paciente.setTelefone(rs.getString("telefone"));
-                    paciente.setCpf(rs.getString("cpf"));
-                    paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return paciente;
-    }
 
     // Buscar paciente por nome
     public Paciente buscarPorNome(String nome) {
@@ -160,8 +132,10 @@ public class PacienteDao {
                 paciente.setTelefone(rs.getString("telefone"));
                 paciente.setCpf(rs.getString("cpf"));
                 paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
-
                 lista.add(paciente);
+            }
+            for (Paciente p : lista) {
+                System.out.println(p);
             }
 
         } catch (SQLException e) {

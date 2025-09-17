@@ -35,6 +35,7 @@ public class Main {
             System.out.println("1 - Login ou Cadastro do paciente");
             System.out.println("2 - Agendar Consulta");
             System.out.println("3 - Remarcar ou Cancelar Consulta");
+            System.out.println("4 - Médico");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             String opcao = scanner.nextLine();
@@ -56,6 +57,21 @@ public class Main {
                 case "3":
                     consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
                     break;
+                case "4":
+                    System.out.printf("Você é um médico do sistema?");
+                    String respM = scanner.nextLine();
+                    if (respM.equalsIgnoreCase("Sim")) {
+                        System.out.println("Deseja ver todos os pacientes e consultas do sistema?");
+                        String respL = scanner.nextLine();
+                        if (respL.equalsIgnoreCase("Sim")){
+                            pacienteDao.listarPacientes();
+                            consultaDao.listarConsultas();
+                        }else{
+                                break;
+                            }
+                    }else{
+                        break;
+                    }
                 case "0":
                     running = false;
                     System.out.println("Saindo do sistema...");

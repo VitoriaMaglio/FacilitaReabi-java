@@ -66,4 +66,16 @@ public class Consulta {
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
     }
+    @Override
+    public String toString() {
+        return "Consulta{" +
+                "ID=" + id +
+                ", DataConsulta=" + dataConsulta +
+                ", MotivoFalta='" + motivoFalta + '\'' +
+                ", Paciente=" + (paciente != null ? paciente.getNome() : "N/A") +
+                '}';
+    }
+
+
+
 }

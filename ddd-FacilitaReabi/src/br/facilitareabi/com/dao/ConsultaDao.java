@@ -7,6 +7,8 @@ import br.facilitareabi.com.model.Usuario;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsultaDao {
     //CRUD
@@ -109,5 +111,31 @@ public class ConsultaDao {
             e.printStackTrace();
         }
 
+    }
+
+    public List<Consulta> listarConsultas() {
+        String sql = "SELECT * FROM consulta";
+        List<Consulta> consultas = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setId(rs.getInt("id"));
+                consulta.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
+                consulta.setStatusConsulta(StatusConsultaEnum.valueOf(rs.getString("statusConsulta")));
+                consulta.setMotivoFalta(rs.getString("motivoFalta"));
+                Paciente paciente = new Paciente();
+                paciente.setId_paciente(rs.getInt("id_paciente"));
+                consulta.setPaciente(paciente);
+                consultas.add(consulta);
+
+            }
+            for (Consulta c : consultas){
+                System.out.println(c);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }return consultas;
     }
 }
