@@ -44,18 +44,23 @@ public class Main {
                 case "1":
                     //cadastro de usuário
                     usuarioController.cadastrarUsuario();
+                    System.out.println("\n============================================\n");
                     pacienteLogado = controller.cadastrarPaciente();
+                    System.out.println("\n============================================\n");
                     break;
                 case "2":
                     if (pacienteLogado != null) {
                         consultaController.cadastrarConsulta(pacienteLogado);
+                        System.out.println("\n============================================\n");
                     } else {
-                        System.out.println("⚠️ Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
                     }
                     break;
 
                 case "3":
+                    System.out.println("\n============================================\n");
                     consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
+                    System.out.println("\n============================================\n");
                     break;
                 case "4":
                     System.out.printf("Você é um médico do sistema?");
@@ -74,6 +79,7 @@ public class Main {
                     }
                 case "0":
                     running = false;
+                    System.out.println("\n============================================\n");
                     System.out.println("Saindo do sistema...");
                     break;
 
