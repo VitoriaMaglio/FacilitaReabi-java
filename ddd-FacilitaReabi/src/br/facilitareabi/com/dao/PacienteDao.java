@@ -15,7 +15,7 @@ public class PacienteDao {
 
     // Cadastrar paciente
     public void cadastrarPaciente(Paciente paciente) {
-        String sql = "INSERT INTO paciente (nome, dataNascimento, email, telefone, cpf, vulnerabilidade) VALUES (paciente_seq.NEXTVAL,?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO paciente (id_paciente, nome, dataNascimento, email, telefone, cpf, vulnerabilidade) VALUES (paciente_seq.NEXTVAL,?, ?,?, ?, ?, ?)";
 
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

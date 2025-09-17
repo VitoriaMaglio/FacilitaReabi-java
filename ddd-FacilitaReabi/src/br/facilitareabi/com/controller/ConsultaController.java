@@ -25,8 +25,9 @@ public class ConsultaController {
             }
         }
 
-        public void cadastrarConsulta() {
+        public void cadastrarConsulta(Paciente paciente) {
             Consulta consulta = new Consulta();
+            consulta.setPaciente(paciente);
 
             System.out.printf("Vamos agendar uma teleconsulta!");
             System.out.println("Digite a data da consulta (dd/MM/yyyy):");
@@ -40,7 +41,9 @@ public class ConsultaController {
 
             consultaService.cadastrarConsulta(consulta);
         }
-        public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao) {
+        public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
+
+            consulta.setPaciente(paciente);
             Scanner leitor = new Scanner(System.in);
             System.out.println("Você deseja remarcar (1) ou cancelar (2) a consulta?");
             int opcao = leitor.nextInt();

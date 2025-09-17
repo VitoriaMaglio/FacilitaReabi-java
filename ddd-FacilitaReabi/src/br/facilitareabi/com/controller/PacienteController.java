@@ -13,7 +13,7 @@ public class PacienteController {
     //declarar um obj do tipo service para utilizar lógica de negócio
 
     //Recebe os dados do usuário e chama in
-    public void cadastrarPaciente() {
+    public Paciente cadastrarPaciente() {
         Scanner scanner = new Scanner(System.in);
         Paciente paciente = new Paciente();
 
@@ -90,6 +90,7 @@ public class PacienteController {
             //pacienteDao.atualizarVulnerabilidade(paciente);
         }
         pacienteService.cadastrarPaciente(paciente);
+        return paciente;
     }
 
 

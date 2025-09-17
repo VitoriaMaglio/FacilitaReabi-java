@@ -24,6 +24,7 @@ public class Main {
         Paciente paciente = new Paciente();
         PacienteDao pacienteDao = new PacienteDao();
         PacienteController controller = new PacienteController();
+        Paciente pacienteLogado = null;
         Usuario usuario = new Usuario();
         UsuarioDao usuarioDao = new UsuarioDao();
         UsuarioController usuarioController = new UsuarioController();
@@ -42,11 +43,19 @@ public class Main {
                 case "1":
                     //cadastro de usuário
                     usuarioController.cadastrarUsuario();
-                    controller.cadastrarPaciente();
+                    pacienteLogado = controller.cadastrarPaciente();
+                    break;
                 case "2":
-                    consultaController.cadastrarConsulta();
+                    if (pacienteLogado != null) {
+                        consultaController.cadastrarConsulta(pacienteLogado);
+                    } else {
+                        System.out.println("⚠️ Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
+                    break;
+
                 case "3":
-                    consultaController.remarcarConsulta(consulta, consultaDao);
+                    consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
+                    break;
                 case "0":
                     running = false;
                     System.out.println("Saindo do sistema...");

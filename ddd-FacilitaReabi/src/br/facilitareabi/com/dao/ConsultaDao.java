@@ -12,11 +12,12 @@ public class ConsultaDao {
     //CRUD
 
     public void cadastrarConsulta(Consulta consulta) {
-        String sql = "insert into consulta ( dataConsulta, statusConsulta, motivoFalta,id_paciente) values(consulta_seq.NEXTVAL,?,?,?,?)";
+        String sql = "insert into consulta ( id, dataConsulta, statusConsulta, motivoFalta,id_paciente) values(consulta_seq.NEXTVAL,?,?,?,?)";
+
 
         try(Connection conexao = ConnectionFactory.obterConexao();
             PreparedStatement comandoSQL = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-//pode ser essa data aqui errada
+
             comandoSQL.setDate(1, Date.valueOf((LocalDate)consulta.getDataConsulta()));
             comandoSQL.setString(2, consulta.getStatusConsulta().name());
             comandoSQL.setString(3, consulta.getMotivoFalta());
