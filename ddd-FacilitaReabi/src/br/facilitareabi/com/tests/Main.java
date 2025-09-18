@@ -1,5 +1,4 @@
 package br.facilitareabi.com.tests;
-
 import br.facilitareabi.com.controller.ConsultaController;
 import br.facilitareabi.com.controller.PacienteController;
 import br.facilitareabi.com.controller.UsuarioController;
@@ -9,15 +8,11 @@ import br.facilitareabi.com.dao.UsuarioDao;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
-
-import javax.sound.midi.Soundbank;
 import java.util.Scanner;
-
 public class Main {
     //Método para cadastro-leitura de paciente
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         Consulta consulta = new Consulta();
         ConsultaDao consultaDao = new ConsultaDao();
         ConsultaController consultaController = new ConsultaController();
@@ -28,7 +23,6 @@ public class Main {
         Usuario usuario = new Usuario();
         UsuarioDao usuarioDao = new UsuarioDao();
         UsuarioController usuarioController = new UsuarioController();
-
         boolean running = true;
         while (running) {
             System.out.println("\n=== MENU DO SITE ===");
@@ -39,10 +33,8 @@ public class Main {
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             String opcao = scanner.nextLine();
-
             switch (opcao) {
                 case "1":
-                    //cadastro de usuário
                     usuarioController.cadastrarUsuario();
                     System.out.println("\n============================================\n");
                     pacienteLogado = controller.cadastrarPaciente();
@@ -56,7 +48,6 @@ public class Main {
                         System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
                     }
                     break;
-
                 case "3":
                     System.out.println("\n============================================\n");
                     consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
@@ -82,16 +73,9 @@ public class Main {
                     System.out.println("\n============================================\n");
                     System.out.println("Saindo do sistema...");
                     break;
-
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-
-            }
         }
     }
-
-
-
-
-
+}

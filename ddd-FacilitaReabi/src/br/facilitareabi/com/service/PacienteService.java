@@ -1,8 +1,6 @@
 package br.facilitareabi.com.service;
-
 import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.model.Paciente;
-
 public class PacienteService {
     private PacienteDao pacienteDao = new PacienteDao();
     //validar dados do paciente -> criar método com Paciente de parâmetro;
@@ -15,8 +13,6 @@ public class PacienteService {
             System.out.println("Paciente com dados inválidos!");
         }
     }
-
-    //método boolean validarPaciente
     public boolean validarPaciente(Paciente paciente) {
         // Exemplo simples de validação
         return paciente.getNome() != null && !paciente.getNome().isEmpty()
