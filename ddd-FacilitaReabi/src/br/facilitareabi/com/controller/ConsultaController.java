@@ -9,6 +9,7 @@ import br.facilitareabi.com.service.ConsultaServiceImpl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ConsultaController {
@@ -35,46 +36,70 @@ public class ConsultaController {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate novaData = LocalDate.parse(dataDigitada, fmt);
             consulta.setDataConsulta(novaData);
+            System.out.println("Digite a especialização da consulta:");
+            String especializacao = scanner.nextLine();
+            consulta.setEspecializacao(especializacao);
 
             System.out.println("Consulta agendada!");
             consulta.setStatusConsulta(StatusConsultaEnum.AGENDADA);
 
             consultaService.cadastrarConsulta(consulta);
         }
-        public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
+    public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
 
-            consulta.setPaciente(paciente);
-            Scanner leitor = new Scanner(System.in);
-            System.out.println("Você deseja remarcar (1) ou cancelar (2) a consulta?");
-            int opcao = leitor.nextInt();
-            leitor.nextLine(); // consumir o \n
+        consulta.setPaciente(paciente);
+        Scanner leitor = new Scanner(System.in);
 
-            String motivoFalta;
-            LocalDate novaData = null;
+        System.out.println("Você deseja remarcar (1) ou cancelar (2) a consulta?");
+        int opcao = leitor.nextInt();
+        leitor.nextLine(); // consumir o \n
 
+        String motivoFalta = null;
+
+        if (opcao == 1) { // Remarcar
+            System.out.println("Digite a data da consulta que você deseja remarcar (dd/MM/yyyy): ");
+            String dataCancelar = leitor.nextLine();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataDigitada = LocalDate.parse(dataCancelar, fmt);
+
+            Consulta consultaEncontrada = consultaDao.buscarPorData(dataDigitada);
             System.out.print("Digite o motivo da sua falta: ");
-            motivoFalta = leitor.nextLine();
+             motivoFalta = leitor.nextLine();
 
-            if (opcao == 1) { // Remarcar
+            if (consultaEncontrada != null) {
                 System.out.print("Digite a nova data da consulta (dd/MM/yyyy): ");
-                String dataDigitada = leitor.nextLine();
-                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                novaData = LocalDate.parse(dataDigitada, fmt);
+                String novaDataStr = leitor.nextLine();
+                LocalDate novaData = LocalDate.parse(novaDataStr, fmt);
 
-                // Chama o método do service
-                consultaService.remarcarConsulta(consulta, novaData, motivoFalta);
-            } else if (opcao == 2) { // Cancelar
-                // Chama o método do service
-                consultaService.cancelarConsulta(consulta, motivoFalta);
+                consultaService.remarcarConsulta(consultaEncontrada, novaData, motivoFalta);
+                consultaDao.atualizarConsulta(consultaEncontrada);
+
+                System.out.println("Consulta remarcada com sucesso para " + novaData);
             } else {
-                System.out.println("Opção inválida!");
-                return;
+                System.out.println("Nenhuma consulta encontrada nessa data.");
             }
 
-            // Atualiza no banco
-            consultaDao.atualizarConsulta(consulta);
+        } else if (opcao == 2) { // Cancelar
+            System.out.println("Digite a data da consulta que você deseja cancelar (dd/MM/yyyy): ");
+            String dataCancelar = leitor.nextLine();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataDigitada = LocalDate.parse(dataCancelar, fmt);
 
-            System.out.println("Sua consulta está " + consulta.getStatusConsulta());
+            Consulta consultaEncontrada = consultaDao.buscarPorData(dataDigitada);
+
+            if (consultaEncontrada != null) {
+                consultaService.cancelarConsulta(consultaEncontrada, motivoFalta);
+                consultaDao.excluirConsultaData(consultaEncontrada.getId());
+
+                System.out.println("Consulta cancelada com sucesso!");
+            } else {
+                System.out.println("Nenhuma consulta encontrada nessa data.");
+            }
+
+        } else {
+            System.out.println("Opção inválida!");
+            return;
         }
-        }
+    }}
+
 

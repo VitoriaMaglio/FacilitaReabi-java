@@ -3,7 +3,6 @@ package br.facilitareabi.com.model;
 import br.facilitareabi.com.enums.StatusConsultaEnum;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Consulta {
     //atributtes
@@ -11,6 +10,7 @@ public class Consulta {
     private LocalDate dataConsulta;
     private StatusConsultaEnum StatusConsulta;
     private String motivoFalta;
+    private String especializacao;
     private Paciente paciente;
 
     //Construtor
@@ -18,11 +18,13 @@ public class Consulta {
     public Consulta() {
     }
 
-    public Consulta(int id, LocalDate dataConsulta, StatusConsultaEnum statusConsulta, String motivoFalta) {
+    public Consulta(int id, LocalDate dataConsulta, StatusConsultaEnum statusConsulta, String motivoFalta, String especializacao, Paciente paciente) {
         this.id = id;
         this.dataConsulta = dataConsulta;
         StatusConsulta = statusConsulta;
         this.motivoFalta = motivoFalta;
+        this.especializacao = especializacao;
+        this.paciente = paciente;
     }
 
     //Getters e setters
@@ -59,6 +61,14 @@ public class Consulta {
         this.motivoFalta = motivoFalta;
     }
 
+    public String getEspecializacao() {
+        return especializacao;
+    }
+
+    public void setEspecializacao(String especializacao) {
+        this.especializacao = especializacao;
+    }
+
     public Paciente getPaciente() {
         return paciente;
     }
@@ -73,6 +83,7 @@ public class Consulta {
                 ", DataConsulta=" + dataConsulta +
                 ", MotivoFalta='" + motivoFalta + '\'' +
                 ", Paciente=" + (paciente != null ? paciente.getNome() : "N/A") +
+                "Especialização=" + especializacao +
                 '}';
     }
 

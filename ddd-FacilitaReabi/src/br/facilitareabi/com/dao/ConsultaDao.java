@@ -3,7 +3,6 @@ package br.facilitareabi.com.dao;
 import br.facilitareabi.com.enums.StatusConsultaEnum;
 import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
-import br.facilitareabi.com.model.Usuario;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,7 +13,7 @@ public class ConsultaDao {
     //CRUD
 
     public void cadastrarConsulta(Consulta consulta) {
-        String sql = "insert into consulta ( id, dataConsulta, statusConsulta, motivoFalta,id_paciente) values(consulta_seq.NEXTVAL,?,?,?,?)";
+        String sql = "insert into consulta ( id, dataConsulta, statusConsulta, motivoFalta, especializacao, id_paciente) values(consulta_seq.NEXTVAL,?,?,?,?,?)";
 
 
         try(Connection conexao = ConnectionFactory.obterConexao();
@@ -23,7 +22,8 @@ public class ConsultaDao {
             comandoSQL.setDate(1, Date.valueOf((LocalDate)consulta.getDataConsulta()));
             comandoSQL.setString(2, consulta.getStatusConsulta().name());
             comandoSQL.setString(3, consulta.getMotivoFalta());
-            comandoSQL.setInt(4,consulta.getPaciente().getId_paciente());
+            comandoSQL.setString(4,consulta.getEspecializacao());
+            comandoSQL.setInt(5,consulta.getPaciente().getId_paciente());
             comandoSQL.executeUpdate();
             try (PreparedStatement psId = conexao.prepareStatement("SELECT consulta_seq.CURRVAL FROM dual");
                  ResultSet rs = psId.executeQuery()) {
@@ -43,14 +43,14 @@ public class ConsultaDao {
     }
 
     //buscar
-    public Consulta buscarId(int id){
-        String sql = "SELECT * FROM consulta WHERE id=?";
+    public Consulta buscarPorData(LocalDate data){
+        String sql = "SELECT * FROM consulta WHERE dataConsulta=?";
         Consulta consulta = null;
 
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setDate(1, java.sql.Date.valueOf(data));
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     consulta = new Consulta();
@@ -58,6 +58,7 @@ public class ConsultaDao {
                     consulta.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
                     consulta.setStatusConsulta(StatusConsultaEnum.valueOf(rs.getString("statusConsulta")));
                     consulta.setMotivoFalta(rs.getString("motivoFalta"));
+                    consulta.setEspecializacao(rs.getString("especializacao"));
 
                     //referência ao paciente:
                     Paciente paciente = new Paciente();
@@ -74,7 +75,7 @@ public class ConsultaDao {
 
         //UPDATE não cria registros — ele só modifica registros que já existem
     public void atualizarConsulta(Consulta consulta) {
-        String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ?, id_paciente = ? WHERE id = ?";
+        String sql = "UPDATE consulta SET dataConsulta = ?, statusConsulta = ?, motivoFalta = ?, especializacao = ?, id_paciente = ? WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -82,8 +83,9 @@ public class ConsultaDao {
             ps.setDate(1, Date.valueOf(consulta.getDataConsulta()));
             ps.setString(2, consulta.getStatusConsulta().name());
             ps.setString(3, consulta.getMotivoFalta());
-            ps.setInt(4, consulta.getPaciente().getId_paciente());
-            ps.setInt(5, consulta.getId());
+            ps.setString(4,consulta.getEspecializacao());
+            ps.setInt(5, consulta.getPaciente().getId_paciente());
+            ps.setInt(6, consulta.getId());
 
             int linhasAfetadas = ps.executeUpdate();
             if (linhasAfetadas == 0) {
@@ -95,7 +97,7 @@ public class ConsultaDao {
         }
     }
 
-    public void excluir(int id) {
+    public void excluirConsultaData(int id) {
         String sql = "DELETE FROM consulta WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.obterConexao();
@@ -104,7 +106,7 @@ public class ConsultaDao {
             ps.setInt(1, id);
             int linhasAfetadas = ps.executeUpdate();
             if (linhasAfetadas == 0) {
-                System.out.println("Nenhuma consulta encontrada com o ID: " + id);
+                System.out.println("Nenhuma consulta encontrada com a data: " + id);
             }
 
         } catch (SQLException e) {
@@ -125,6 +127,7 @@ public class ConsultaDao {
                 consulta.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
                 consulta.setStatusConsulta(StatusConsultaEnum.valueOf(rs.getString("statusConsulta")));
                 consulta.setMotivoFalta(rs.getString("motivoFalta"));
+                consulta.setEspecializacao(rs.getString("especializacao"));
                 Paciente paciente = new Paciente();
                 paciente.setId_paciente(rs.getInt("id_paciente"));
                 consulta.setPaciente(paciente);
