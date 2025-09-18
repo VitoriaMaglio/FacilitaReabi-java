@@ -1,6 +1,6 @@
 package br.facilitareabi.com.model;
 
-public class Usuario extends Paciente{
+public class Usuario {
     //atributtes
     private int id;
     private String login;

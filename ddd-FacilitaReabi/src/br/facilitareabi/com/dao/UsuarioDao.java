@@ -52,16 +52,34 @@ public class UsuarioDao {
             throw new RuntimeException(e);
         }
     }
-    public void excluirUsua(int id){
-        String sql = "DELETE FROM USUARIO WHERE ID=?";
-        try( Connection conexao = ConnectionFactory.obterConexao();
-             PreparedStatement comandoSQL = conexao.prepareStatement((sql))) {
-            comandoSQL.setInt(1,id);
-            comandoSQL.executeUpdate();
-            comandoSQL.close();
-            conexao.close();
+    public boolean existeUsuarioPorLogin(String login) {
+        String sql = "SELECT COUNT(*) FROM USUARIO WHERE LOGIN = ?";
+        try (Connection conexao = ConnectionFactory.obterConexao();
+             PreparedStatement comandoSQL = conexao.prepareStatement(sql)) {
+            comandoSQL.setString(1, login);
+            ResultSet rs = comandoSQL.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Se COUNT > 0, usuário existe
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao verificar usuário: " + e.getMessage(), e);
+        }
+        return false;
+    }
+    public void excluirUsua(String login) {
+        String sql = "DELETE FROM USUARIO WHERE LOGIN=?";
+        try (Connection conexao = ConnectionFactory.obterConexao();
+             PreparedStatement comandoSQL = conexao.prepareStatement((sql))) {
+            comandoSQL.setString(1,
+                    login);
+            int linhasAfetadas = comandoSQL.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Usuário com login '" + login + "' removido com sucesso!");
+            } else {
+                System.out.println("Nenhum usuário encontrado com esse login.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir usuário: " + e.getMessage(), e);
         }
     }
 }

@@ -29,7 +29,11 @@ public class Main {
             System.out.println("1 - Login ou Cadastro do paciente");
             System.out.println("2 - Agendar Consulta");
             System.out.println("3 - Remarcar ou Cancelar Consulta");
-            System.out.println("4 - Médico");
+            System.out.println("4 - Atualizar Paciente");
+            System.out.println("5 - Excluir Paciente");
+            System.out.println("6 - Atualizar Usuário");
+            System.out.println("7 - Excluir Usuario");
+            System.out.println("8 - Médico");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             String opcao = scanner.nextLine();
@@ -54,6 +58,16 @@ public class Main {
                     System.out.println("\n============================================\n");
                     break;
                 case "4":
+                    controller.atualizarPaciente(paciente);
+                    break;
+                case "5":
+                    controller.excluirPaciente();
+                case "6":
+                    usuarioController.atualizarUsuario();
+                    break;
+                case "7":
+                    usuarioController.excluirUsuario();
+                case "8":
                     System.out.printf("Você é um médico do sistema?");
                     String respM = scanner.nextLine();
                     if (respM.equalsIgnoreCase("Sim")) {

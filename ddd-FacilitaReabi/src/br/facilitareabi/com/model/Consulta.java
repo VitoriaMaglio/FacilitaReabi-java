@@ -4,7 +4,7 @@ import br.facilitareabi.com.enums.StatusConsultaEnum;
 
 import java.time.LocalDate;
 
-public class Consulta extends Paciente {
+public class Consulta {
     //atributtes
     private int id;
     private LocalDate dataConsulta;

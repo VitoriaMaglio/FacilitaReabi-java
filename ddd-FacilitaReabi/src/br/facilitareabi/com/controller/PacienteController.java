@@ -1,4 +1,5 @@
 package br.facilitareabi.com.controller;
+import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.service.PacienteService;
 import java.time.LocalDate;
@@ -67,6 +68,26 @@ public class PacienteController {
         }
         pacienteService.cadastrarPaciente(paciente);
         return paciente;
+    }
+    public void atualizarPaciente(Paciente paciente){
+        Scanner scanner = new Scanner(System.in);
+        PacienteDao pacienteDao = new PacienteDao();
+
+        System.out.println("Deseja atualizar seu cadastro?");
+        String resp = scanner.nextLine();
+        if (resp.equalsIgnoreCase("Sim")){
+            pacienteDao.atualizarPaciente(paciente);
+        }
+    }
+    public void excluirPaciente(){
+        Scanner scanner = new Scanner(System.in);
+        PacienteDao pacienteDao = new PacienteDao();
+        Paciente paciente = new Paciente();
+        System.out.println("Deseja excluir um paciente?");
+        String resp = scanner.nextLine();
+        if (resp.equalsIgnoreCase("Sim")){
+            pacienteDao.excluirPaciente(paciente.getId_paciente());
+        }
     }
 }
 
