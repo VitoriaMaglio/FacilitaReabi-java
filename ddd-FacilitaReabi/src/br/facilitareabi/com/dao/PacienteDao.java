@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PacienteDao {
     public void cadastrarPaciente(Paciente paciente) {
-        String sql = "INSERT INTO paciente (id_paciente, nome, dataNascimento, email, telefone, cpf, vulnerabilidade) VALUES (paciente_seq.NEXTVAL,?, ?,?, ?, ?, ?)";
+        String sql = "INSERT INTO paciente (id_paciente, nome, dataNascimento, email, telefone, cpf, vulnerabilidade, aptidao) VALUES (paciente_seq.NEXTVAL,?, ?,?, ?, ?, ?,?)";
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, paciente.getNome());
@@ -22,6 +22,7 @@ public class PacienteDao {
             ps.setString(4, paciente.getTelefone());
             ps.setString(5, paciente.getCpf());
             ps.setString(6, paciente.getVulnerabilidade());
+            ps.setString(7, paciente.getAptidao());
             ps.executeUpdate();
             try (PreparedStatement psId = conn.prepareStatement("SELECT paciente_seq.CURRVAL FROM dual");
                  ResultSet rs = psId.executeQuery()) {
@@ -67,7 +68,8 @@ public class PacienteDao {
             ps.setString(4, paciente.getTelefone());
             ps.setString(5, paciente.getCpf());
             ps.setString(6, paciente.getVulnerabilidade());
-            ps.setInt(7, paciente.getId_paciente());
+            ps.setString(7, paciente.getAptidao());
+            ps.setInt(8, paciente.getId_paciente());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,6 +100,7 @@ public class PacienteDao {
                 paciente.setTelefone(rs.getString("telefone"));
                 paciente.setCpf(rs.getString("cpf"));
                 paciente.setVulnerabilidade(rs.getString("vulnerabilidade"));
+                paciente.setAptidao(rs.getString("aptidao"));
                 lista.add(paciente);
             }
             for (Paciente p : lista) {

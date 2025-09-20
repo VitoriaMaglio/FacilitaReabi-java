@@ -41,6 +41,7 @@ public class Main {
                 case "1":
                     usuarioController.cadastrarUsuario();
                     System.out.println("\n============================================\n");
+                    System.out.println("Agora vamos fazer seu cadastro como paciente para realizar consultas!");
                     pacienteLogado = controller.cadastrarPaciente();
                     System.out.println("\n============================================\n");
                     break;
@@ -83,6 +84,10 @@ public class Main {
                         break;
                     }
                 case "0":
+                    System.out.println("Digite um feedback para nosso site!");
+                    usuarioController.registrarFeedback(usuario);
+
+                    System.out.println("Lembre! Você possui uma consulta!");
                     running = false;
                     System.out.println("\n============================================\n");
                     System.out.println("Saindo do sistema...");

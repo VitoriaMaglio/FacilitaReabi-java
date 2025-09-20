@@ -5,11 +5,12 @@ import br.facilitareabi.com.model.Usuario;
 import java.sql.*;
 public class UsuarioDao {
     public void cadastrarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuario (id, login, senha) VALUES (usuario_seq.NEXTVAL, ?, ?)";
+        String sql = "INSERT INTO usuario (id, login, senha, feedback) VALUES (usuario_seq.NEXTVAL, ?, ?)";
         try (Connection conexao = ConnectionFactory.obterConexao();
              PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setString(1, usuario.getLogin());
             ps.setString(2, usuario.getSenha());
+
             ps.executeUpdate();
             try (PreparedStatement psId = conexao.prepareStatement("SELECT usuario_seq.CURRVAL FROM dual");
                  ResultSet rs = psId.executeQuery()) {
@@ -23,6 +24,7 @@ public class UsuarioDao {
             throw new RuntimeException(e);
         }
     }
+
     public Usuario buscarId(int id) {
         String sql = "SELECT * FROM USUARIO WHERE ID = ?";
         try (Connection conn = ConnectionFactory.obterConexao();
@@ -33,6 +35,7 @@ public class UsuarioDao {
                 Usuario usuario = new Usuario();
                 usuario.setLogin(rs.getString("login"));
                 usuario.setSenha(rs.getString("senha"));
+
                 return usuario;
             }
         } catch (SQLException e) {
@@ -40,12 +43,25 @@ public class UsuarioDao {
         }
         return null;
     }
+    public void atualizarFeedback(int idUsuario, String feedback) {
+        String sql = "UPDATE usuario SET feedback = ? WHERE id = ?";
+        try (Connection conexao = ConnectionFactory.obterConexao();
+             PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setString(1, feedback);
+            ps.setInt(2, idUsuario);
+            ps.executeUpdate();
+            System.out.println("Feedback atualizado com sucesso!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void alterarUsuario(Usuario usuario){
         String sql = "UPDATE USUARIO SET LOGIN, WHERE ID=?";
         try(Connection conexao = ConnectionFactory.obterConexao();
             PreparedStatement comandoSQL = conexao.prepareStatement(sql)){
-            comandoSQL.setString(2,usuario.getLogin());
-            comandoSQL.setString(3,usuario.getSenha());
+            comandoSQL.setString(1,usuario.getLogin());
+            comandoSQL.setString(2,usuario.getSenha());
+            comandoSQL.setInt(3, usuario.getId());
             comandoSQL.executeUpdate();
             comandoSQL.close();
         } catch (SQLException e) {

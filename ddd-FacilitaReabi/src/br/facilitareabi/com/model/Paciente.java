@@ -10,10 +10,12 @@ public class Paciente {
     private String telefone;
     private String email;
     private String vulnerabilidade;
+    private String aptidao;
     //Construtor
     public Paciente() {
     }
-    public Paciente(int id_paciente, String nome, String cpf, LocalDate dataNascimento, String telefone, String email, String vulnerabilidade) {
+
+    public Paciente(int id_paciente, String nome, String cpf, LocalDate dataNascimento, String telefone, String email, String vulnerabilidade, String aptidao) {
         this.id_paciente = id_paciente;
         this.nome = nome;
         this.cpf = cpf;
@@ -21,7 +23,9 @@ public class Paciente {
         this.telefone = telefone;
         this.email = email;
         this.vulnerabilidade = vulnerabilidade;
+        this.aptidao = aptidao;
     }
+
     //Getters e setters
     public int getId_paciente() {return id_paciente;}
     public void setId_paciente(int id_paciente) {this.id_paciente = id_paciente;}
@@ -57,6 +61,15 @@ public class Paciente {
     public void setVulnerabilidade(String vulnerabilidade) {
         this.vulnerabilidade = vulnerabilidade;
     }
+
+    public String getAptidao() {
+        return aptidao;
+    }
+
+    public void setAptidao(String aptidao) {
+        this.aptidao = aptidao;
+    }
+
     @Override
     public String toString() {
         return "Paciente{" +
@@ -67,6 +80,7 @@ public class Paciente {
                 ", Telefone='" + telefone + '\'' +
                 ", CPF='" + cpf + '\'' +
                 ", Vulnerabilidade='" + vulnerabilidade + '\'' +
+                ", Aptidão='"+ aptidao + '\'' +
                 '}';
     }
 }

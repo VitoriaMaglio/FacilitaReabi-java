@@ -35,6 +35,7 @@ public class ConsultaController {
             System.out.println("Consulta agendada!");
             consulta.setStatusConsulta(StatusConsultaEnum.AGENDADA);
             consultaService.cadastrarConsulta(consulta);
+        System.out.println("Lembre-se! Você tem uma consulta agendada para o dia " + consulta.getDataConsulta());
     }
     public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
         consulta.setPaciente(paciente);
@@ -59,6 +60,7 @@ public class ConsultaController {
                 consultaDao.atualizarConsulta(consultaEncontrada);
                 System.out.println("Consulta remarcada com sucesso para " + novaData);
                 consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
+                System.out.println("Lembre-se! Você tem uma consulta agendada para o dia " + consulta.getDataConsulta());
             } else {
                 System.out.println("Nenhuma consulta encontrada nessa data.");
             }

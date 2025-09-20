@@ -63,8 +63,13 @@ public class PacienteController {
             String vulnerabilidadeSelecionada = vulnerabilidades[opcao - 1];
             paciente.setVulnerabilidade(vulnerabilidadeSelecionada);
             System.out.println("Vulnerabilidade registrada: " + vulnerabilidadeSelecionada);
+            System.out.println("Paciente não apto para realizar consultas on-line.");
+            paciente.setAptidao("Não apto");
+
         } else {
                 paciente.setVulnerabilidade("Não");
+            System.out.println("Paciente apto para realizar consultas on-line.");
+            paciente.setAptidao("Apto");
         }
         pacienteService.cadastrarPaciente(paciente);
         return paciente;
@@ -77,6 +82,8 @@ public class PacienteController {
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
             pacienteDao.atualizarPaciente(paciente);
+        }else{
+            System.out.println("Ok");
         }
     }
     public void excluirPaciente(){

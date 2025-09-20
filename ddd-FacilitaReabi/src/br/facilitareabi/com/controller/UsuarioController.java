@@ -7,25 +7,38 @@ import br.facilitareabi.com.service.UsuarioService;
 import java.util.Scanner;
 public class UsuarioController {
     private UsuarioService usuarioService = new UsuarioService();
+    Usuario usuario = new Usuario();
+    UsuarioDao usuarioDao = new UsuarioDao();
+    Scanner scanner = new Scanner(System.in);
+
     public void cadastrarUsuario(){
-        Scanner scanner = new Scanner(System.in);
+
         Usuario usuario = new Usuario();
         System.out.println("Digite seu login:");
         usuario.setLogin(scanner.nextLine());
         System.out.println("Digite sua senha:");
-        try{
-            String senha = scanner.nextLine();
-            Integer.parseInt(senha);
-            System.out.println("Erro: digite uma senha com caracteres e números.");
-        } catch (NumberFormatException e) {
-            usuario.setSenha(scanner.nextLine());
-            usuarioService.cadastrarUsuario(usuario);
-        }
+        usuario.setSenha(scanner.nextLine());
+        //try{
+       //     String senha = scanner.nextLine();
+       //     Integer.parseInt(senha);
+        //    System.out.println("Erro: digite uma senha com caracteres e números.");
+       // } catch (NumberFormatException e) {
+        //    usuario.setSenha(scanner.nextLine());
+        //    usuarioService.cadastrarUsuario(usuario);
+        //}
     }
+    public void registrarFeedback(Usuario usuario) {
+        System.out.println("Digite seu feedback: ");
+        String feedback = scanner.nextLine();
+
+        usuarioDao.atualizarFeedback(usuario.getId(), feedback);
+        usuario.setFeedback(feedback); // também atualiza o objeto
+    }
+
     public void atualizarUsuario(){
         Scanner scanner = new Scanner(System.in);
-        UsuarioDao usuarioDao = new UsuarioDao();
-        Usuario usuario = new Usuario();
+
+
         System.out.println("Deseja atualizar seu usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
@@ -35,7 +48,7 @@ public class UsuarioController {
     public void excluirUsuario(){
         Scanner scanner = new Scanner(System.in);
         UsuarioDao usuarioDao = new UsuarioDao();
-        Usuario usuario = new Usuario();
+
         System.out.println("Deseja excluir um usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
