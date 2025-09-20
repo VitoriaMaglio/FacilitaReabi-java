@@ -50,14 +50,17 @@ public class ConsultaController {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate dataDigitada = LocalDate.parse(dataCancelar, fmt);
             Consulta consultaEncontrada = consultaDao.buscarPorData(dataDigitada);
+            leitor.nextLine();
             System.out.print("Digite o motivo da sua falta: ");
              motivoFalta = leitor.nextLine();
+             consulta.setMotivoFalta(motivoFalta);
             if (consultaEncontrada != null) {
                 System.out.print("Digite a nova data da consulta (dd/MM/yyyy): ");
                 String novaDataStr = leitor.nextLine();
                 LocalDate novaData = LocalDate.parse(novaDataStr, fmt);
                 consultaService.remarcarConsulta(consultaEncontrada, novaData, motivoFalta);
                 consultaDao.atualizarConsulta(consultaEncontrada);
+                consulta.setDataConsulta(novaData);
                 System.out.println("Consulta remarcada com sucesso para " + novaData);
                 consulta.setStatusConsulta(StatusConsultaEnum.REMARCADA);
                 System.out.println("Lembre-se! Você tem uma consulta agendada para o dia " + consulta.getDataConsulta());

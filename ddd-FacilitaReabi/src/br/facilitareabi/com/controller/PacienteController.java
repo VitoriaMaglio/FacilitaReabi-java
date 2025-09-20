@@ -81,7 +81,14 @@ public class PacienteController {
         System.out.println("Deseja atualizar seu cadastro?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
-            pacienteDao.atualizarPaciente(paciente);
+            if (paciente.getDataNascimento() == null) {
+                System.out.println("Digite sua data de nascimento (dd/MM/yyyy):");
+                String dataStr = scanner.nextLine();
+                LocalDate data = LocalDate.parse(dataStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                paciente.setDataNascimento(data);
+                cadastrarPaciente();
+                pacienteDao.atualizarPaciente(paciente);
+            }
         }else{
             System.out.println("Ok");
         }
@@ -93,7 +100,13 @@ public class PacienteController {
         System.out.println("Deseja excluir um paciente?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
-            pacienteDao.excluirPaciente(paciente.getId_paciente());
+            System.out.println("Digite o nome do paciente que você deseja excluir: ");
+            String nomeExcluir = scanner.nextLine();
+            paciente.setNome(nomeExcluir);
+            pacienteDao.excluirPaciente(paciente.getNome());
+            System.out.println("Paciente excluído!");
+        }else {
+            System.out.println("Ok!");
         }
     }
 }

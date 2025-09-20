@@ -9,6 +9,7 @@ public class UsuarioController {
     private UsuarioService usuarioService = new UsuarioService();
     Usuario usuario = new Usuario();
     UsuarioDao usuarioDao = new UsuarioDao();
+
     Scanner scanner = new Scanner(System.in);
 
     public void cadastrarUsuario(){
@@ -42,7 +43,10 @@ public class UsuarioController {
         System.out.println("Deseja atualizar seu usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
+            cadastrarUsuario();
             usuarioDao.alterarUsuario(usuario);
+        }else{
+            System.out.println("Ok!");
         }
     }
     public void excluirUsuario(){
@@ -52,7 +56,6 @@ public class UsuarioController {
         System.out.println("Deseja excluir um usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
-            if (resp.equalsIgnoreCase("Sim")) {
                 System.out.println("Digite o login do usuário que deseja excluir:");
                 String login = scanner.nextLine();
                 if (usuarioDao.existeUsuarioPorLogin(login)) {
@@ -65,4 +68,3 @@ public class UsuarioController {
             }
         }
     }
-}

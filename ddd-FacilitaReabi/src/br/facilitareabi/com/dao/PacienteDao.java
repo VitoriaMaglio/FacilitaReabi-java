@@ -59,7 +59,7 @@ public class PacienteDao {
         return paciente;
     }
     public void atualizarPaciente(Paciente paciente) {
-        String sql = "UPDATE paciente SET nome = ?, dataNascimento = ?, email = ?, telefone = ?, cpf = ?, vulnerabilidade = ? WHERE id_paciente = ?";
+        String sql = "UPDATE paciente SET nome = ?, dataNascimento = ?, email = ?, telefone = ?, cpf = ?, vulnerabilidade = ?, aptidao= ? WHERE id_paciente = ?";
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, paciente.getNome());
@@ -75,11 +75,11 @@ public class PacienteDao {
             e.printStackTrace();
         }
     }
-    public void excluirPaciente(int id) {
-        String sql = "DELETE FROM paciente WHERE id_paciente = ?";
+    public void excluirPaciente(String nome) {
+        String sql = "DELETE FROM paciente WHERE nome = ?";
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setString(1, nome);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

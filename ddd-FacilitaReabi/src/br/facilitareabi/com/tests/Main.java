@@ -55,19 +55,48 @@ public class Main {
                     break;
                 case "3":
                     System.out.println("\n============================================\n");
-                    consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
-                    System.out.println("\n============================================\n");
+                    if (pacienteLogado != null) {
+                        consultaController.remarcarConsulta(consulta, consultaDao, pacienteLogado);
+                        System.out.println("\n============================================\n");
+                    } else {
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
                     break;
                 case "4":
-                    controller.atualizarPaciente(paciente);
+                    if (pacienteLogado != null) {
+                        controller.atualizarPaciente(paciente);
+                        System.out.println("\n============================================\n");
+                    } else {
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
                     break;
                 case "5":
-                    controller.excluirPaciente();
+                    if (pacienteLogado != null) {
+                        controller.excluirPaciente();
+                        System.out.println("\n============================================\n");
+                    } else {
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
+                    break;
+
                 case "6":
-                    usuarioController.atualizarUsuario();
+                    if (pacienteLogado != null) {
+
+                        usuarioController.atualizarUsuario();
+                        System.out.println("\n============================================\n");
+                    } else {
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
+
                     break;
                 case "7":
-                    usuarioController.excluirUsuario();
+                    if (pacienteLogado != null) {
+                        usuarioController.excluirUsuario();
+                        System.out.println("\n============================================\n");
+                    } else {
+                        System.out.println(" Você precisa cadastrar/login de um paciente antes de agendar consulta!");
+                    }
+                    break;
                 case "8":
                     System.out.printf("Você é um médico do sistema?");
                     String respM = scanner.nextLine();
@@ -83,11 +112,10 @@ public class Main {
                     }else{
                         break;
                     }
+                    break;
                 case "0":
                     System.out.println("Digite um feedback para nosso site!");
                     usuarioController.registrarFeedback(usuario);
-
-                    System.out.println("Lembre! Você possui uma consulta!");
                     running = false;
                     System.out.println("\n============================================\n");
                     System.out.println("Saindo do sistema...");
