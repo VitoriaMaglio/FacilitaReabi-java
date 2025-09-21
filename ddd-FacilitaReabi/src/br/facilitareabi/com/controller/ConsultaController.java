@@ -43,11 +43,11 @@ public class ConsultaController {
         }
         consulta.setDataConsulta(novaData);
         System.out.println("Digite a especialização da consulta:");
-            String especializacao = scanner.nextLine();
-            consulta.setEspecializacao(especializacao);
-            System.out.println("Consulta agendada!");
-            consulta.setStatusConsulta(StatusConsultaEnum.AGENDADA);
-            consultaService.cadastrarConsulta(consulta);
+        String especializacao = scanner.nextLine();
+        consulta.setEspecializacao(especializacao);
+        System.out.println("Consulta agendada!");
+        consulta.setStatusConsulta(StatusConsultaEnum.AGENDADA);
+        consultaService.cadastrarConsulta(consulta);
         System.out.println("Lembre-se! Você tem uma consulta agendada para o dia " + consulta.getDataConsulta());
     }
     public void buscarConsulta(){
@@ -87,8 +87,8 @@ public class ConsultaController {
             Consulta consultaEncontrada = consultaDao.buscarPorData(dataDigitada);
             leitor.nextLine();
             System.out.print("Digite o motivo da sua falta: ");
-             motivoFalta = leitor.nextLine();
-             consulta.setMotivoFalta(motivoFalta);
+            motivoFalta = leitor.nextLine();
+            consulta.setMotivoFalta(motivoFalta);
             if (consultaEncontrada != null) {
                 System.out.print("Digite a nova data da consulta (dd/MM/yyyy): ");
                 String novaDataStr = leitor.nextLine();

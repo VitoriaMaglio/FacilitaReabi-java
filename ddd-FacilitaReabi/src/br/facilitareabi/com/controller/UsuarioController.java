@@ -1,7 +1,5 @@
 package br.facilitareabi.com.controller;
-import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.dao.UsuarioDao;
-import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
 import br.facilitareabi.com.service.UsuarioService;
 import java.util.Scanner;

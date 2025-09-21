@@ -9,13 +9,13 @@ import br.facilitareabi.com.model.Consulta;
 import br.facilitareabi.com.model.Paciente;
 import br.facilitareabi.com.model.Usuario;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Consulta consulta = new Consulta();
         ConsultaDao consultaDao = new ConsultaDao();
+
         ConsultaController consultaController = new ConsultaController();
         Paciente paciente = new Paciente();
         PacienteDao pacienteDao = new PacienteDao();
