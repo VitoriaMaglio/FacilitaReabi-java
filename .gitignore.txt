@@ -1,0 +1,9 @@
+# IntelliJ IDEA 
+.idea/ 
+# Compilação Java 
+out/ 
+# Arquivos de configuração 
+*.iml 
+# Arquivos temporários 
+*.class 
+*.log
