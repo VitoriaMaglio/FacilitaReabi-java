@@ -39,3 +39,10 @@ Exemplo de fluxo:
 - Registro de dados de vulnerabilidade para análise e melhoria contínua do serviço.
 
 ---
+
+##Como rodar o projeto
+1- Instale as tecnologias necessárias (Java e Oracle SQL Developer).
+2- Execute o arquivo SQL Vitoria_java_bd.sql no Oracle SQL Developer para criar as tabelas e sequências do banco de dados.
+3- Abra o projeto Java e configure suas credenciais do banco de dados na classe ConnectionFactory.
+4- Execute a classe Main para iniciar a aplicação.
+
