@@ -24,8 +24,15 @@ public class Main {
         Usuario usuario = new Usuario();
         UsuarioDao usuarioDao = new UsuarioDao();
         UsuarioController usuarioController = new UsuarioController();
+        System.out.println("███████╗ █████╗  ██████╗ ██╗██       ██╗████████╗ █████╗       ██████╗  ███████╗  █████╗  ██████╗  ██╗");
+        System.out.println("██╔════╝██╔══██╗██╔════╝ ██║██║      ██║╚══██╔══╝██╔══██╗      ██╔══██╗ ██╔════╝ ██╔══██╗ ██   ██╗ ██║");
+        System.out.println("█████╗  ███████║██║      ██║██║      ██║   ██║   ███████║      ██████╔╝ █████╗   ███████║ ██████╔╝ ██║");
+        System.out.println("██╔══╝  ██╔══██║██║      ██║██║      ██║   ██║   ██╔══██║      ██╔══██╗ ██╔══╝   ██╔══██║ ██   ██╗ ██║ ");
+        System.out.println("██║     ██║  ██║╚██████╔╝██║╚██████╔╝██║   ██║   ██║  ██║      ██║  ██║ ████████ ██║  ██║ ███████║ ██║");
+        System.out.println("╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚═╝  ╚═╝      ╚═╝  ╚═╝ ╚═╝╚═╝╚═╝╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝");
             boolean running = true;
             while (running) {
+
                 System.out.println("\n=== MENU DO SITE ===");
                 System.out.println("1 - Login ou Cadastro do paciente");
                 System.out.println("2 - Agendar Consulta");
