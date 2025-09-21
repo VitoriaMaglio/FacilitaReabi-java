@@ -1,6 +1,8 @@
 package br.facilitareabi.com.model;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+
 public class Paciente {
     //atributtes
     private int id_paciente;
@@ -11,10 +13,10 @@ public class Paciente {
     private String email;
     private String vulnerabilidade;
     private String aptidao;
+    private List<Consulta> consultas;
     //Construtor
     public Paciente() {
     }
-
     public Paciente(int id_paciente, String nome, String cpf, LocalDate dataNascimento, String telefone, String email, String vulnerabilidade, String aptidao) {
         this.id_paciente = id_paciente;
         this.nome = nome;
@@ -25,7 +27,6 @@ public class Paciente {
         this.vulnerabilidade = vulnerabilidade;
         this.aptidao = aptidao;
     }
-
     //Getters e setters
     public int getId_paciente() {return id_paciente;}
     public void setId_paciente(int id_paciente) {this.id_paciente = id_paciente;}
@@ -69,7 +70,6 @@ public class Paciente {
     public void setAptidao(String aptidao) {
         this.aptidao = aptidao;
     }
-
     @Override
     public String toString() {
         return "Paciente{" +

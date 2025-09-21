@@ -3,8 +3,6 @@ import br.facilitareabi.com.dao.PacienteDao;
 import br.facilitareabi.com.model.Paciente;
 public class PacienteService {
     private PacienteDao pacienteDao = new PacienteDao();
-    //validar dados do paciente -> criar método com Paciente de parâmetro;
-    //chamar pacienteDao.cadastro
     public void cadastrarPaciente(Paciente paciente) {
         if (validarPaciente(paciente)) { // Lógica de negócio: validação
             pacienteDao.cadastrarPaciente(paciente); // DAO só salva
@@ -14,7 +12,6 @@ public class PacienteService {
         }
     }
     public boolean validarPaciente(Paciente paciente) {
-        // Exemplo simples de validação
         return paciente.getNome() != null && !paciente.getNome().isEmpty()
                 && paciente.getCpf() != null && !paciente.getCpf().isEmpty();
     }

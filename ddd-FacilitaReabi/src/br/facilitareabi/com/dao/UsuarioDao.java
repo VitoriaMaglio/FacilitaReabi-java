@@ -5,7 +5,7 @@ import br.facilitareabi.com.model.Usuario;
 import java.sql.*;
 public class UsuarioDao {
     public void cadastrarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuario (id, login, senha,) VALUES (usuario_seq.NEXTVAL, ?, ?)";
+        String sql = "INSERT INTO usuario (id, login, senha) VALUES (usuario_seq.NEXTVAL, ?, ?)";
         try (Connection conexao = ConnectionFactory.obterConexao();
              PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setString(1, usuario.getLogin());
@@ -19,14 +19,14 @@ public class UsuarioDao {
             }
             System.out.println("Usuário cadastrado com ID: " + usuario.getId());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
-    public Usuario buscarId(int id) {
-        String sql = "SELECT * FROM USUARIO WHERE ID = ?";
+    public Usuario buscarLogin(String login) {
+        String sql = "SELECT * FROM USUARIO WHERE LOGIN = ?";
         try (Connection conn = ConnectionFactory.obterConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Usuario usuario = new Usuario();

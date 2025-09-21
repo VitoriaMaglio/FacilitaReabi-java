@@ -1,5 +1,4 @@
 package br.facilitareabi.com.model;
-
 public class Usuario {
     //atributtes
     private int id;
@@ -9,14 +8,12 @@ public class Usuario {
     //Construtor
     public Usuario() {
     }
-
     public Usuario(int id, String login, String senha, String feedback) {
         this.id = id;
         this.login = login;
         this.senha = senha;
         this.feedback = feedback;
     }
-
     //getters e setters
     public int getId() {
         return id;

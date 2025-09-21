@@ -1,5 +1,4 @@
 package br.facilitareabi.com.controller;
-
 import br.facilitareabi.com.dao.ConsultaDao;
 import br.facilitareabi.com.enums.StatusConsultaEnum;
 import br.facilitareabi.com.model.Consulta;
@@ -8,7 +7,7 @@ import br.facilitareabi.com.service.ConsultaService;
 import br.facilitareabi.com.service.ConsultaServiceImpl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 public class ConsultaController {
     private ConsultaService consultaService = new ConsultaServiceImpl();
@@ -36,6 +35,31 @@ public class ConsultaController {
             consulta.setStatusConsulta(StatusConsultaEnum.AGENDADA);
             consultaService.cadastrarConsulta(consulta);
         System.out.println("Lembre-se! Você tem uma consulta agendada para o dia " + consulta.getDataConsulta());
+    }
+    public void buscarConsulta(){
+        ConsultaDao consultaDao = new ConsultaDao();
+        System.out.println("Digite a data da consulta que você deseja buscar (dd/MM/yyyy): ");
+        String dataDigitada = scanner.nextLine();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            LocalDate novaData = LocalDate.parse(dataDigitada, fmt);
+            Consulta consulta = consultaDao.buscarPorData(novaData);
+
+            if (consulta != null) {
+                System.out.println("Consulta encontrada:");
+                System.out.println("ID: " + consulta.getId());
+                System.out.println("Data: " + consulta.getDataConsulta());
+                System.out.println("Status: " + consulta.getStatusConsulta());
+                System.out.println("Motivo da Falta: " + consulta.getMotivoFalta());
+                System.out.println("Especialização: " + consulta.getEspecializacao());
+                System.out.println("ID do Paciente: " + consulta.getPaciente().getId_paciente());
+            } else {
+                System.out.println("Nenhuma consulta encontrada para a data informada.");
+            }
+        } catch (DateTimeParseException e) {
+            System.out.println("Data inválida. Use o formato dd/MM/yyyy.");
+        }
     }
     public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
         consulta.setPaciente(paciente);

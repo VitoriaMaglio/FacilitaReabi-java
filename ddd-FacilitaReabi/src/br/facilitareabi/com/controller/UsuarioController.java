@@ -19,6 +19,7 @@ public class UsuarioController {
         usuario.setLogin(scanner.nextLine());
         System.out.println("Digite sua senha:");
         usuario.setSenha(scanner.nextLine());
+        usuarioService.cadastrarUsuario(usuario);
         //try{
        //     String senha = scanner.nextLine();
        //     Integer.parseInt(senha);
@@ -35,7 +36,16 @@ public class UsuarioController {
         usuarioDao.atualizarFeedback(usuario.getId(), feedback);
         usuario.setFeedback(feedback); // também atualiza o objeto
     }
-
+    public void buscarUsuario(Usuario usuario){
+        System.out.println("Digite o login do usuário que você deseja buscar dados: ");
+        String usuarioLogin = scanner.nextLine();
+        Usuario usuarioEncontrado = usuarioDao.buscarLogin(usuarioLogin);
+        if (usuarioLogin != null ){
+            System.out.println("Usuário encontrado!");
+            System.out.println("Login: " + usuarioEncontrado.getLogin());
+            System.out.println("Senha: " + usuarioEncontrado.getSenha());
+        }
+    }
     public void atualizarUsuario(){
         Scanner scanner = new Scanner(System.in);
 

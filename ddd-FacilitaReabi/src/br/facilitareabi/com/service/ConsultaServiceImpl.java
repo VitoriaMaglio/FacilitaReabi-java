@@ -7,8 +7,6 @@ import java.time.LocalDate;
 public class ConsultaServiceImpl implements ConsultaService {
     @Override
     public boolean verificarAptoParaConsulta(Paciente paciente) {
-        // Lógica para checar restrições
-        // Regra de aptidão: se vulnerabilidade == "Não", então não é apto
         if (paciente.getVulnerabilidade() != null
                 && paciente.getVulnerabilidade().equalsIgnoreCase("Não")) {
             return false;

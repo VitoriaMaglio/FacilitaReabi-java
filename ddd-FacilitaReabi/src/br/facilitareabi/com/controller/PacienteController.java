@@ -7,9 +7,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 public class PacienteController {
+    Scanner scanner = new Scanner(System.in);
+    PacienteDao pacienteDao = new PacienteDao();
     private PacienteService pacienteService = new PacienteService();
     public Paciente cadastrarPaciente() {
-        Scanner scanner = new Scanner(System.in);
+
         Paciente paciente = new Paciente();
         System.out.println("Digite o nome:");
         paciente.setNome(scanner.nextLine());
@@ -74,9 +76,29 @@ public class PacienteController {
         pacienteService.cadastrarPaciente(paciente);
         return paciente;
     }
+
+    public void buscarPaciente(Paciente paciente){
+        System.out.println("Digite o nome do paciente que você deseja buscar dados: ");
+        String nomePaciente = scanner.nextLine();
+        Paciente pacienteEncontrado = pacienteDao.buscarPorNome(nomePaciente);
+        if (pacienteEncontrado != null){
+            System.out.println("Paciente encontrado:");
+            System.out.println("ID: " + pacienteEncontrado.getId_paciente());
+            System.out.println("Nome: " + pacienteEncontrado.getNome());
+            System.out.println("Data: " + pacienteEncontrado.getDataNascimento());
+            System.out.println("CPF: " + pacienteEncontrado.getCpf());
+            System.out.println("Email: " + pacienteEncontrado.getEmail());
+            System.out.println("Telefone: " + pacienteEncontrado.getTelefone());
+            System.out.println("Vulnerabilidade: " + pacienteEncontrado.getVulnerabilidade());
+            System.out.println("Aptidão: "+ pacienteEncontrado.getAptidao());
+        } else {
+            System.out.println("Nenhuma consulta encontrada para a data informada.");
+        }
+
+    }
     public void atualizarPaciente(Paciente paciente){
-        Scanner scanner = new Scanner(System.in);
-        PacienteDao pacienteDao = new PacienteDao();
+
+
 
         System.out.println("Deseja atualizar seu cadastro?");
         String resp = scanner.nextLine();
@@ -94,8 +116,8 @@ public class PacienteController {
         }
     }
     public void excluirPaciente(){
-        Scanner scanner = new Scanner(System.in);
-        PacienteDao pacienteDao = new PacienteDao();
+
+
         Paciente paciente = new Paciente();
         System.out.println("Deseja excluir um paciente?");
         String resp = scanner.nextLine();
