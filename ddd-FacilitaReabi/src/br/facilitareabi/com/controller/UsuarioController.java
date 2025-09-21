@@ -9,30 +9,19 @@ public class UsuarioController {
     private UsuarioService usuarioService = new UsuarioService();
     Usuario usuario = new Usuario();
     UsuarioDao usuarioDao = new UsuarioDao();
-
     Scanner scanner = new Scanner(System.in);
-
     public void cadastrarUsuario(){
-
         Usuario usuario = new Usuario();
         System.out.println("Digite seu login:");
         usuario.setLogin(scanner.nextLine());
         System.out.println("Digite sua senha:");
         usuario.setSenha(scanner.nextLine());
         usuarioService.cadastrarUsuario(usuario);
-        //try{
-       //     String senha = scanner.nextLine();
-       //     Integer.parseInt(senha);
-        //    System.out.println("Erro: digite uma senha com caracteres e números.");
-       // } catch (NumberFormatException e) {
-        //    usuario.setSenha(scanner.nextLine());
-        //    usuarioService.cadastrarUsuario(usuario);
-        //}
+
     }
     public void registrarFeedback(Usuario usuario) {
         System.out.println("Digite seu feedback: ");
         String feedback = scanner.nextLine();
-
         usuarioDao.atualizarFeedback(usuario.getId(), feedback);
         usuario.setFeedback(feedback); // também atualiza o objeto
     }
@@ -40,16 +29,15 @@ public class UsuarioController {
         System.out.println("Digite o login do usuário que você deseja buscar dados: ");
         String usuarioLogin = scanner.nextLine();
         Usuario usuarioEncontrado = usuarioDao.buscarLogin(usuarioLogin);
-        if (usuarioLogin != null ){
-            System.out.println("Usuário encontrado!");
-            System.out.println("Login: " + usuarioEncontrado.getLogin());
-            System.out.println("Senha: " + usuarioEncontrado.getSenha());
-        }
+            if (usuarioLogin != null) {
+                System.out.println("Usuário encontrado!");
+                System.out.println("Login: " + usuarioEncontrado.getLogin());
+                System.out.println("Senha: " + usuarioEncontrado.getSenha());
+            } else {
+                System.out.println("Usuário não encontrado.");
+            }
     }
     public void atualizarUsuario(){
-        Scanner scanner = new Scanner(System.in);
-
-
         System.out.println("Deseja atualizar seu usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
@@ -60,9 +48,7 @@ public class UsuarioController {
         }
     }
     public void excluirUsuario(){
-        Scanner scanner = new Scanner(System.in);
         UsuarioDao usuarioDao = new UsuarioDao();
-
         System.out.println("Deseja excluir um usuário?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){

@@ -4,8 +4,8 @@ import br.facilitareabi.com.model.Paciente;
 public class PacienteService {
     private PacienteDao pacienteDao = new PacienteDao();
     public void cadastrarPaciente(Paciente paciente) {
-        if (validarPaciente(paciente)) { // Lógica de negócio: validação
-            pacienteDao.cadastrarPaciente(paciente); // DAO só salva
+        if (validarPaciente(paciente)) {
+            pacienteDao.cadastrarPaciente(paciente);
             System.out.println("Paciente cadastrado com sucesso!");
         } else {
             System.out.println("Paciente com dados inválidos!");

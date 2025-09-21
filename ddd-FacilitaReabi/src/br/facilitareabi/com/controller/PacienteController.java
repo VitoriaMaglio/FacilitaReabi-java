@@ -9,10 +9,9 @@ import java.util.Scanner;
 public class PacienteController {
     Scanner scanner = new Scanner(System.in);
     PacienteDao pacienteDao = new PacienteDao();
+    Paciente paciente = new Paciente();
     private PacienteService pacienteService = new PacienteService();
     public Paciente cadastrarPaciente() {
-
-        Paciente paciente = new Paciente();
         System.out.println("Digite o nome:");
         paciente.setNome(scanner.nextLine());
         System.out.println("Digite o CPF:");
@@ -53,12 +52,11 @@ public class PacienteController {
                 try {
                     opcao = Integer.parseInt(scanner.nextLine());
                     if (opcao >= 1 && opcao <= vulnerabilidades.length) {
-                        break; // se for válido, sai do loop
+                        break;
                     } else {
-                        System.out.println("Número inválido, tente novamente."); // fora do intervalo
+                        System.out.println("Número inválido, tente novamente.");
                     }
                 } catch (NumberFormatException e) {
-                    // Caso o paciente digite algo que não seja número (ex: "abc")
                     System.out.println("Digite apenas números.");
                 }
             }
@@ -76,7 +74,6 @@ public class PacienteController {
         pacienteService.cadastrarPaciente(paciente);
         return paciente;
     }
-
     public void buscarPaciente(Paciente paciente){
         System.out.println("Digite o nome do paciente que você deseja buscar dados: ");
         String nomePaciente = scanner.nextLine();
@@ -92,14 +89,10 @@ public class PacienteController {
             System.out.println("Vulnerabilidade: " + pacienteEncontrado.getVulnerabilidade());
             System.out.println("Aptidão: "+ pacienteEncontrado.getAptidao());
         } else {
-            System.out.println("Nenhuma consulta encontrada para a data informada.");
+            System.out.println("Nenhum paciente encontrado.");
         }
-
     }
     public void atualizarPaciente(Paciente paciente){
-
-
-
         System.out.println("Deseja atualizar seu cadastro?");
         String resp = scanner.nextLine();
         if (resp.equalsIgnoreCase("Sim")){
@@ -116,8 +109,6 @@ public class PacienteController {
         }
     }
     public void excluirPaciente(){
-
-
         Paciente paciente = new Paciente();
         System.out.println("Deseja excluir um paciente?");
         String resp = scanner.nextLine();
@@ -132,6 +123,3 @@ public class PacienteController {
         }
     }
 }
-
-
-

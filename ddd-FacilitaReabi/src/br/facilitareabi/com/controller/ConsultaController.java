@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class ConsultaController {
     private ConsultaService consultaService = new ConsultaServiceImpl();
     private Scanner scanner = new Scanner(System.in);
+    Scanner leitor = new Scanner(System.in);
+    Consulta consulta = new Consulta();
     public void verificarPaciente(Paciente paciente) {
         if (consultaService.verificarAptoParaConsulta(paciente)) {
             System.out.println("Paciente apto para teleconsulta.");
@@ -20,15 +22,27 @@ public class ConsultaController {
         }
     }
     public void cadastrarConsulta(Paciente paciente) {
-            Consulta consulta = new Consulta();
-            consulta.setPaciente(paciente);
-            System.out.printf("Vamos agendar uma teleconsulta!");
+        consulta.setPaciente(paciente);
+        System.out.printf("Vamos agendar uma teleconsulta!");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate novaData = null;
+        while (true) {
             System.out.println("Digite a data da consulta (dd/MM/yyyy):");
             String dataDigitada = scanner.nextLine();
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate novaData = LocalDate.parse(dataDigitada, fmt);
-            consulta.setDataConsulta(novaData);
-            System.out.println("Digite a especialização da consulta:");
+            try {
+                novaData = LocalDate.parse(dataDigitada, fmt);
+
+                if (novaData.isBefore(LocalDate.now())) {
+                    System.out.println("Erro: não é possível marcar uma consulta em uma data passada. Tente novamente.");
+                } else {
+                    break;
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Erro: formato de data inválido. Use dd/MM/yyyy.");
+            }
+        }
+        consulta.setDataConsulta(novaData);
+        System.out.println("Digite a especialização da consulta:");
             String especializacao = scanner.nextLine();
             consulta.setEspecializacao(especializacao);
             System.out.println("Consulta agendada!");
@@ -41,11 +55,9 @@ public class ConsultaController {
         System.out.println("Digite a data da consulta que você deseja buscar (dd/MM/yyyy): ");
         String dataDigitada = scanner.nextLine();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         try {
             LocalDate novaData = LocalDate.parse(dataDigitada, fmt);
             Consulta consulta = consultaDao.buscarPorData(novaData);
-
             if (consulta != null) {
                 System.out.println("Consulta encontrada:");
                 System.out.println("ID: " + consulta.getId());
@@ -63,7 +75,6 @@ public class ConsultaController {
     }
     public void remarcarConsulta(Consulta consulta, ConsultaDao consultaDao, Paciente paciente) {
         consulta.setPaciente(paciente);
-        Scanner leitor = new Scanner(System.in);
         System.out.println("Você deseja remarcar (1) ou cancelar (2) a consulta?");
         int opcao = leitor.nextInt();
         leitor.nextLine();
