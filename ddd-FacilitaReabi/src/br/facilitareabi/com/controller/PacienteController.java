@@ -16,7 +16,7 @@ public class PacienteController {
         paciente.setNome(scanner.nextLine());
         System.out.println("Digite o CPF:");
         paciente.setCpf(scanner.nextLine());
-        System.out.println("Digite sua data de nascimento:");
+        System.out.println("Digite sua data de nascimento:   (dd/MM/yyyy) " );
         String dataDigitada = scanner.nextLine();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {

@@ -42,7 +42,7 @@ public class ConsultaController {
             }
         }
         consulta.setDataConsulta(novaData);
-        System.out.println("Digite a especialização da consulta:");
+        System.out.println("Digite a especialização da consulta: (Psicologia, Fonoaudiologia ou Fisioterapia.)");
         String especializacao = scanner.nextLine();
         consulta.setEspecializacao(especializacao);
         System.out.println("Consulta agendada!");
@@ -85,7 +85,7 @@ public class ConsultaController {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate dataDigitada = LocalDate.parse(dataCancelar, fmt);
             Consulta consultaEncontrada = consultaDao.buscarPorData(dataDigitada);
-            leitor.nextLine();
+
             System.out.print("Digite o motivo da sua falta: ");
             motivoFalta = leitor.nextLine();
             consulta.setMotivoFalta(motivoFalta);
